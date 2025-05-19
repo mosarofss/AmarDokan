@@ -26,7 +26,7 @@
         header {
             background-color: #007bff;
             color: white;
-            padding: 1.5rem 0;
+            padding: 0.8rem 0;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             position: sticky;
@@ -34,25 +34,44 @@
             z-index: 100;
         }
 
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
+            justify-content: space-between;
+            padding: 0 1rem;
         }
 
         .logo img {
-            max-height: 50px;
-            margin-right: 1rem;
-            border-radius: 50%; /* Make the logo round */
-            border: 2px solid white; /* Add a border */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+            max-height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .logo h1 {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger i {
+            font-size: 1.5rem;
+            color: white;
         }
 
         nav ul {
@@ -64,16 +83,16 @@
         }
 
         nav ul li {
-            margin: 0 1.5rem;
+            margin: 0 1rem;
         }
 
         nav ul li a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: color 0.3s ease;
-            padding: 0.5rem 0;
+            padding: 0.3rem 0;
             position: relative;
         }
 
@@ -133,7 +152,7 @@
         #home {
             text-align: center;
             padding: 4rem 0;
-            background-image: url('hero-image.jpg'); /* Add your image path */
+            background-image: url('hero-image.jpg');
             background-size: cover;
             background-position: center;
             background-blend-mode: multiply;
@@ -251,10 +270,10 @@
             font-size: 1.1rem;
             margin-left: auto;
             margin-right: auto;
-            position: fixed; /* Fix the button to the bottom */
+            position: fixed;
             bottom: 20px;
             right: 20px;
-            z-index: 1000; /* Ensure it's above other elements */
+            z-index: 1000;
         }
 
         .whatsapp-button:hover {
@@ -286,7 +305,7 @@
             margin-bottom: 2rem;
         }
 
-        #contact .contact-intro{
+        #contact .contact-intro {
             font-size: 1.4rem;
             color: #343a40;
             margin-bottom: 1rem;
@@ -316,12 +335,12 @@
                 margin: 0 1rem;
             }
 
-            .hero-content {
+            #home {
                 padding: 3rem 1rem;
             }
 
-            .logo h1{
-                font-size: 1.75rem;
+            .logo h1 {
+                font-size: 1.4rem;
             }
 
             .whatsapp-button {
@@ -335,31 +354,48 @@
                 grid-template-columns: 1fr;
             }
 
+            .logo h1 {
+                font-size: 1.3rem;
+                text-align: left;
+                margin-left: 10px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                padding: 0.5rem 0;
+            }
+
+            nav.active {
+                display: block;
+            }
+
             nav ul {
                 flex-direction: column;
-                text-align: center;
+                align-items: center;
             }
 
             nav ul li {
-                margin: 0.75rem 0;
-            }
-
-            .logo {
-                flex-direction: column;
+                margin: 0.5rem 0;
+                width: 100%;
                 text-align: center;
             }
 
-            .logo img{
-                margin-right: 0;
-                margin-bottom: 1rem;
+            nav ul li a {
+                display: block;
+                padding: 0.5rem;
             }
 
-            .hero-content h2 {
+            #home h2 {
                 font-size: 2rem;
             }
 
-            .hero-content p {
+            #home p {
                 font-size: 1.1rem;
+                max-width: 90%;
             }
 
             .whatsapp-button {
@@ -377,12 +413,20 @@
         }
 
         @media (max-width: 576px) {
-            .hero-content {
+            #home {
                 padding: 2rem 1rem;
             }
 
-            .hero-image img {
-                max-width: 80%;
+            #home h2 {
+                font-size: 1.8rem;
+            }
+
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+
+            .logo img {
+                max-height: 35px;
             }
 
             .whatsapp-button {
@@ -392,23 +436,42 @@
                 right: 5px;
             }
         }
+
+        .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+}
+
+.logo-link:hover {
+    text-decoration: none;
+    color: white;
+}
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" xintegrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
+    <div class="header-container">
         <div class="logo">
-            <img src="images/logo.png" alt="Store Logo">
-            <h1>আমার দোকান</h1>
+            <a href="#home" class="logo-link">
+                <img src="images/logo.png" alt="Store Logo">
+                <h1>আমার দোকান</h1>
+            </a>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
-        <nav>
+        <nav id="nav">
             <ul>
                 <li><a href="#home" class="active">হোম</a></li>
                 <li><a href="#products">পণ্য</a></li>
                 <li><a href="#contact">যোগাযোগ</a></li>
             </ul>
         </nav>
-    </header>
+    </div>
+</header>
 
     <main>
         <section id="home" class="hero-content">
@@ -558,7 +621,7 @@
                     <p>This is a description of product 22.</p>
                     <p class="price">$37.00</p>
                 </div>
-                 <div class="product-card" data-category="মহিলা">
+                <div class="product-card" data-category="মহিলা">
                     <img src="images/pants.jpeg" alt="Product 23">
                     <h3>Product 23</h3>
                     <p>This is a description of product 23.</p>
@@ -596,6 +659,24 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const nav = document.getElementById('nav');
+        
+        hamburger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+        
+        // Close menu when a nav item is clicked (for mobile)
+        document.querySelectorAll('nav a, .logo-link').forEach(anchor => {
+    anchor.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+            nav.classList.remove('active');
+        }
+    });
+});
+
+        // Your existing JavaScript
         document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
