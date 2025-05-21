@@ -141,7 +141,7 @@
             text-decoration: none;
             font-weight: 600;
             font-size: 1.15rem; /* Slightly larger nav links */
-            transition: color 0.3s ease, transform 0.2s ease;
+            transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
             padding: 0.5rem 0;
             position: relative;
             letter-spacing: 0.5px;
@@ -151,6 +151,7 @@
         nav ul li a.active {
             color: #ffd700; /* Gold color for active/hover */
             transform: translateY(-3px); /* More pronounced lift */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); /* Subtle glow */
         }
 
         nav ul li a:after {
@@ -345,6 +346,7 @@
             position: relative;
             opacity: 0; /* Start hidden for animation */
             transform: translateY(30px) scale(0.95); /* Initial state for animation */
+            cursor: pointer; /* Indicate clickable */
         }
 
         @keyframes cardPopUp {
@@ -437,6 +439,38 @@
             letter-spacing: -0.7px;
         }
 
+        /* Zoom Icon in product card */
+        .product-card .zoom-icon {
+            position: absolute;
+            top: 1.2rem; /* Adjusted top */
+            right: 1.2rem; /* Adjusted right */
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            color: white;
+            border-radius: 50%;
+            width: 40px; /* Slightly larger icon area */
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem; /* Icon size */
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            z-index: 5; /* Above image but below modal overlay */
+            opacity: 0; /* Hidden by default */
+            transform: scale(0.8); /* Slightly smaller initially */
+        }
+
+        .product-card:hover .zoom-icon {
+            opacity: 1; /* Visible on hover */
+            transform: scale(1); /* Pop in effect */
+        }
+
+        .product-card .zoom-icon:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+
         /* WhatsApp Button */
         .whatsapp-button {
             display: flex;
@@ -522,6 +556,266 @@
             opacity: 0.85;
         }
 
+        /* Product Pop-up Styles */
+        .product-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* Above header */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .product-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .product-modal-content {
+            background-color: white;
+            padding: 2rem; /* Reduced padding for smaller size */
+            border-radius: 18px; /* Rounded corners */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+            max-width: 600px; /* Max width for pop-up */
+            width: 90%; /* Responsive width */
+            max-height: 90vh; /* Max height to fit on screen */
+            overflow-y: auto; /* Allow scrolling if content overflows */
+            text-align: center;
+            position: relative;
+            transform: translateY(30px) scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* Slightly reduced gap */
+        }
+
+        .product-modal-overlay.active .product-modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .product-modal-close {
+            position: absolute;
+            top: 0.8rem; /* Closer to top */
+            right: 0.8rem; /* Closer to right */
+            background: none;
+            border: none;
+            font-size: 2.2rem; /* Slightly smaller close icon */
+            color: #343a40;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+            z-index: 10; /* Ensure it's above other content */
+        }
+
+        .product-modal-close:hover {
+            color: #dc3545; /* Red on hover */
+            transform: scale(1.1);
+        }
+
+        .modal-product-img {
+            max-width: 80%; /* Smaller image inside modal */
+            height: auto;
+            border-radius: 12px;
+            margin: 0 auto 1rem auto; /* Centered with less bottom margin */
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-product-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem; /* Slightly smaller title */
+            font-weight: 700;
+            color: #1a237e; /* Deep blue */
+            margin-bottom: 0.3rem; /* Reduced margin */
+            line-height: 1.2;
+        }
+
+        .modal-product-desc {
+            font-size: 1.1rem; /* Readable description */
+            color: #555;
+            margin-bottom: 0.8rem; /* Reduced margin */
+        }
+
+        .modal-rating-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.8rem; /* Reduced margin */
+            font-size: 1.2rem; /* Slightly smaller rating font */
+            color: #555;
+        }
+        .modal-rating-section .stars {
+            color: #ffc107;
+            margin-right: 0.5rem;
+        }
+        .modal-rating-section .auto-rating {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .modal-product-price {
+            font-size: 2.6rem; /* Slightly smaller price */
+            font-weight: 800;
+            color: #d32f2f;
+            margin-bottom: 1.2rem; /* Reduced margin */
+        }
+
+        /* Reusing whatsapp-button styles for modal CTA */
+        .modal-whatsapp-button {
+            display: inline-flex; /* Use inline-flex to center content */
+            align-items: center;
+            justify-content: center;
+            background-color: #25D366;
+            color: white;
+            padding: 0.9rem 2.2rem; /* Significantly reduced padding for smaller button */
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem; /* Significantly reduced font size */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25); /* Adjusted shadow */
+            width: fit-content; /* Adjust width to content */
+            margin: 0 auto; /* Center the button */
+        }
+
+        .modal-whatsapp-button:hover {
+            background-color: #128C7E;
+            transform: translateY(-3px) scale(1.01); /* Reduced lift */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .modal-whatsapp-button i {
+            margin-right: 0.8rem; /* Reduced margin */
+            font-size: 1.4rem; /* Reduced icon size */
+        }
+
+        /* Image Zoom Pop-up Styles */
+        .image-zoom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker background for image zoom */
+            display: flex;
+            flex-direction: column; /* Allow content to stack */
+            justify-content: center;
+            align-items: center;
+            z-index: 1002; /* Above product modal */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .image-zoom-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-zoom-content {
+            position: relative;
+            max-width: 90%; /* Adjust max width for large images */
+            max-height: 80vh; /* Adjust max height to leave space for slider */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            margin-bottom: 20px; /* Space for slider */
+        }
+
+        .image-zoom-overlay.active .image-zoom-content {
+            transform: scale(1);
+        }
+
+        .image-zoom-content img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensure entire image is visible */
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transform-origin: center center; /* Ensure zoom from center */
+            transition: transform 0.05s linear; /* Smooth zoom transition */
+        }
+
+        .image-zoom-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2.5rem; /* Large close button */
+            color: white;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .image-zoom-close:hover {
+            color: #dc3545;
+            transform: scale(1.1);
+        }
+
+        .zoom-slider-container {
+            width: 80%;
+            max-width: 500px; /* Limit slider width */
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoom-slider-container .fas {
+            color: white;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .zoom-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+            border-radius: 5px;
+        }
+
+        .zoom-slider:hover {
+            opacity: 1;
+        }
+
+        .zoom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #007bff; /* Blue thumb */
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            border: 2px solid white;
+        }
+
+        .zoom-slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            border: 2px solid white;
+        }
+
+
         /* Responsive Styles */
         @media (max-width: 1920px) {
             .container, main, .category-selector, .product-list, #contact {
@@ -562,6 +856,36 @@
             }
             .product-card {
                 padding: 1.8rem;
+            }
+            .product-modal-content {
+                padding: 1.8rem; /* Adjusted for smaller modal */
+                max-width: 550px; /* Adjusted max width */
+            }
+            .modal-product-title {
+                font-size: 2rem; /* Adjusted */
+            }
+            .modal-product-desc {
+                font-size: 1rem; /* Adjusted */
+            }
+            .modal-product-price {
+                font-size: 2.4rem; /* Adjusted */
+            }
+            .modal-whatsapp-button {
+                font-size: 1.1rem; /* Adjusted */
+                padding: 0.8rem 2rem; /* Adjusted */
+            }
+            .modal-whatsapp-button i {
+                font-size: 1.3rem; /* Adjusted */
+            }
+            .zoom-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+                top: 1rem;
+                right: 1rem;
+            }
+            .image-zoom-close {
+                font-size: 2.2rem;
             }
         }
 
@@ -612,6 +936,9 @@
                 bottom: 30px;
                 right: 30px;
             }
+            .whatsapp-button i {
+                font-size: 1.4rem;
+            }
             #contact h2 {
                 font-size: 2.4rem;
             }
@@ -620,6 +947,43 @@
             }
             #contact p {
                 font-size: 1.1rem;
+            }
+            .product-modal-content {
+                padding: 1.5rem; /* Further adjusted for smaller screens */
+                max-width: 90%; /* Take more width on smaller screens */
+                max-height: 80vh; /* Keep within viewport */
+            }
+            .modal-product-title {
+                font-size: 1.6rem; /* Adjusted */
+            }
+            .modal-product-desc {
+                font-size: 0.9rem; /* Adjusted */
+            }
+            .modal-product-price {
+                font-size: 2.1rem; /* Adjusted */
+            }
+            .modal-whatsapp-button {
+                font-size: 1rem; /* Adjusted */
+                padding: 0.7rem 1.8rem; /* Adjusted */
+            }
+            .modal-whatsapp-button i {
+                font-size: 1.3rem; /* Adjusted */
+            }
+            .modal-rating-section {
+                font-size: 1rem;
+            }
+            .zoom-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+                top: 0.9rem;
+                right: 0.9rem;
+            }
+            .image-zoom-close {
+                font-size: 2rem;
+            }
+            .zoom-slider-container {
+                width: 90%; /* Adjust slider width */
             }
         }
 
@@ -761,9 +1125,48 @@
             #contact p {
                 font-size: 1rem;
             }
-            footer {
-                padding: 2rem 1rem;
+            .product-modal-content {
+                padding: 1rem; /* Adjusted for mobile view */
+                width: 95%; /* Wider on very small screens */
+                max-height: 90vh; /* Keep within viewport */
+            }
+            .modal-product-img {
+                max-width: 90%; /* Wider image for mobile */
+            }
+            .modal-product-title {
+                font-size: 1.4rem; /* Adjusted */
+            }
+            .modal-product-desc {
+                font-size: 0.85rem; /* Adjusted */
+            }
+            .modal-product-price {
+                font-size: 1.9rem; /* Adjusted */
+            }
+            .modal-whatsapp-button {
+                font-size: 0.9rem; /* Adjusted for mobile */
+                padding: 0.6rem 1.5rem; /* Adjusted for mobile */
+            }
+            .modal-whatsapp-button i {
+                font-size: 1.1rem; /* Adjusted for mobile */
+            }
+            .product-modal-close {
+                font-size: 1.8rem; /* Adjusted for mobile */
+            }
+            .modal-rating-section {
+                font-size: 0.9rem; /* Adjusted for mobile */
+            }
+            .zoom-icon {
+                width: 28px;
+                height: 28px;
                 font-size: 0.9rem;
+                top: 0.7rem;
+                right: 0.7rem;
+            }
+            .image-zoom-close {
+                font-size: 1.8rem;
+            }
+            .zoom-slider-container {
+                width: 95%; /* Adjust slider width for smaller screens */
             }
         }
 
@@ -854,6 +1257,63 @@
                 padding: 1.8rem 0.8rem;
                 font-size: 0.8rem;
             }
+            /* Further optimized modal for smallest screens */
+            .product-modal-content {
+                padding: 0.8rem; /* Minimal padding */
+                gap: 0.8rem; /* Reduced gap */
+                max-height: 95vh; /* Allow it to take almost full height if needed */
+            }
+            .modal-product-img {
+                max-width: 95%; /* Make image slightly larger on smallest screens */
+                margin-bottom: 0.8rem;
+            }
+            .modal-product-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.2rem;
+            }
+            .modal-product-desc {
+                font-size: 0.8rem;
+                margin-bottom: 0.6rem;
+            }
+            .modal-rating-section {
+                font-size: 0.8rem;
+                margin-bottom: 0.6rem;
+            }
+            .modal-product-price {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+            .modal-whatsapp-button {
+                font-size: 0.85rem; /* Smallest font size for button */
+                padding: 0.5rem 1.2rem; /* Smallest padding for button */
+            }
+            .modal-whatsapp-button i {
+                font-size: 1rem; /* Smallest icon size */
+                margin-right: 0.6rem;
+            }
+            .product-modal-close {
+                font-size: 1.6rem;
+                top: 0.6rem;
+                right: 0.6rem;
+            }
+            .zoom-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 0.8rem;
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            .image-zoom-close {
+                font-size: 1.6rem;
+            }
+            .zoom-slider-container {
+                width: 98%; /* Even wider for tiny screens */
+            }
+            .zoom-slider::-webkit-slider-thumb,
+            .zoom-slider::-moz-range-thumb {
+                width: 20px;
+                height: 20px;
+            }
         }
     </style>
 </head>
@@ -898,253 +1358,278 @@
                 <div class="product-list">
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/pants.jpeg" alt="স্টাইলিশ ডেনিম প্যান্ট">
-                        <h3>স্টাইলিশ ডেনিম প্যান্ট</h3>
-                        <p>আধুনিক ডিজাইন ও আরামদায়ক ফ্যাব্রিক। প্রতিদিনের ব্যবহারের জন্য উপযুক্ত।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="স্টাইলিশ ডেনিম প্যান্ট">স্টাইলিশ ডেনিম প্যান্ট</h3>
+                        <p data-description="আধুনিক ডিজাইন ও আরামদায়ক ফ্যাব্রিক। প্রতিদিনের ব্যবহারের জন্য উপযুক্ত।">আধুনিক ডিজাইন ও আরামদায়ক ফ্যাব্রিক। প্রতিদিনের ব্যবহারের জন্য উপযুক্ত।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.8"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2500</p>
+                        <p class="price" data-price="2500">৳2500</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/sharee.jpeg" alt="ঐতিহ্যবাহী সিল্ক শাড়ী">
-                        <h3>ঐতিহ্যবাহী সিল্ক শাড়ী</h3>
-                        <p>উৎসবের জন্য মানানসই, হাতে বোনা সিল্ক শাড়ী। ঐতিহ্য ও আধুনিকতার ছোঁয়া।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="ঐতিহ্যবাহী সিল্ক শাড়ী">ঐতিহ্যবাহী সিল্ক শাড়ী</h3>
+                        <p data-description="উৎসবের জন্য মানানসই, হাতে বোনা সিল্ক শাড়ী। ঐতিহ্য ও আধুনিকতার ছোঁয়া।">উৎসবের জন্য মানানসই, হাতে বোনা সিল্ক শাড়ী। ঐতিহ্য ও আধুনিকতার ছোঁয়া।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.9"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3000</p>
+                        <p class="price" data-price="3000">৳3000</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/yoga.jpeg" alt="আরামদায়ক যোগা সেট">
-                        <h3>আরামদায়ক যোগা সেট</h3>
-                        <p>শরীরচর্চার জন্য পারফেক্ট, শ্বাসপ্রশ্বাসযোগ্য ফ্যাব্রিকের তৈরি।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="আরামদায়ক যোগা সেট">আরামদায়ক যোগা সেট</h3>
+                        <p data-description="শরীরচর্চার জন্য পারফেক্ট, শ্বাসপ্রশ্বাসযোগ্য ফ্যাব্রিকের তৈরি।">শরীরচর্চার জন্য পারফেক্ট, শ্বাসপ্রশ্বাসযোগ্য ফ্যাব্রিকের তৈরি।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.5"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳1500</p>
+                        <p class="price" data-price="1500">৳1500</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/shirts.jpeg" alt="প্রিমিয়াম ক্যাজুয়াল শার্ট">
-                        <h3>প্রিমিয়াম ক্যাজুয়াল শার্ট</h3>
-                        <p>ফ্যাশনেবল ও আরামদায়ক, আধুনিক পুরুষের জন্য সেরা পছন্দ।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="প্রিমিয়াম ক্যাজুয়াল শার্ট">প্রিমিয়াম ক্যাজুয়াল শার্ট</h3>
+                        <p data-description="ফ্যাশনেবল ও আরামদায়ক, আধুনিক পুরুষের জন্য সেরা পছন্দ।">ফ্যাশনেবল ও আরামদায়ক, আধুনিক পুরুষের জন্য সেরা পছন্দ।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.7"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳4000</p>
+                        <p class="price" data-price="4000">৳4000</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/tshirts.jpeg" alt="সফট কটন টি-শার্ট">
-                        <h3>সফট কটন টি-শার্ট</h3>
-                        <p>সারাদিন আরামদায়ক থাকতে সেরা কটন টি-শার্ট।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="সফট কটন টি-শার্ট">সফট কটন টি-শার্ট</h3>
+                        <p data-description="সারাদিন আরামদায়ক থাকতে সেরা কটন টি-শার্ট।">সারাদিন আরামদায়ক থাকতে সেরা কটন টি-শার্ট।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.2"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2200</p>
+                        <p class="price" data-price="2200">৳2200</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/pants.jpeg" alt="ট্রেন্ডি চিনো প্যান্ট">
-                        <h3>ট্রেন্ডি চিনো প্যান্ট</h3>
-                        <p>ক্যাজুয়াল ও ফর্মাল লুকের জন্য পারফেক্ট।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="ট্রেন্ডি চিনো প্যান্ট">ট্রেন্ডি চিনো প্যান্ট</h3>
+                        <p data-description="ক্যাজুয়াল ও ফর্মাল লুকের জন্য পারফেক্ট।">ক্যাজুয়াল ও ফর্মাল লুকের জন্য পারফেক্ট।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.6"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3500</p>
+                        <p class="price" data-price="3500">৳3500</p>
                     </div>
                     <div class="product-card" data-category="বাচ্চা">
                         <img src="images/child stylis.jpeg" alt="কিউট বেবি সেট">
-                        <h3>কিউট বেবি সেট</h3>
-                        <p>ছোট্ট সোনামণির জন্য রঙিন ও আরামদায়ক পোশাক।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="কিউট বেবি সেট">কিউট বেবি সেট</h3>
+                        <p data-description="ছোট্ট সোনামণির জন্য রঙিন ও আরামদায়ক পোশাক।">ছোট্ট সোনামণির জন্য রঙিন ও আরামদায়ক পোশাক।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.9"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳1800</p>
+                        <p class="price" data-price="1800">৳1800</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/sharee.jpeg" alt="লেটেস্ট ডিজাইন শাড়ী">
-                        <h3>লেটেস্ট ডিজাইন শাড়ী</h3>
-                        <p>আধুনিকতার ছোঁয়া সহ নজরকাড়া শাড়ী।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="লেটেস্ট ডিজাইন শাড়ী">লেটেস্ট ডিজাইন শাড়ী</h3>
+                        <p data-description="আধুনিকতার ছোঁয়া সহ নজরকাড়া শাড়ী।">আধুনিকতার ছোঁয়া সহ নজরকাড়া শাড়ী।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.7"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2800</p>
+                        <p class="price" data-price="2800">৳2800</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/yoga.jpeg" alt="ফ্লেক্সিবল যোগা প্যান্ট">
-                        <h3>ফ্লেক্সিবল যোগা প্যান্ট</h3>
-                        <p>যোগা বা জিমের জন্য সেরা, সম্পূর্ণ ফ্লেক্সিবল।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="ফ্লেক্সিবল যোগা প্যান্ট">ফ্লেক্সিবল যোগা প্যান্ট</h3>
+                        <p data-description="যোগা বা জিমের জন্য সেরা, সম্পূর্ণ ফ্লেক্সিবল।">যোগা বা জিমের জন্য সেরা, সম্পূর্ণ ফ্লেক্সিবল।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.4"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3200</p>
+                        <p class="price" data-price="3200">৳3200</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/tshirts.jpeg" alt="গ্রাফিক প্রিন্ট টি-শার্ট">
-                        <h3>গ্রাফিক প্রিন্ট টি-শার্ট</h3>
-                        <p>তরুণদের পছন্দের নতুন ডিজাইনের টি-শার্ট।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="গ্রাফিক প্রিন্ট টি-শার্ট">গ্রাফিক প্রিন্ট টি-শার্ট</h3>
+                        <p data-description="তরুণদের পছন্দের নতুন ডিজাইনের টি-শার্ট।">তরুণদের পছন্দের নতুন ডিজাইনের টি-শার্ট।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.1"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2700</p>
+                        <p class="price" data-price="2700">৳2700</p>
                     </div>
                     <div class="product-card" data-category="বাচ্চা">
                         <img src="images/child tshirts.jpeg" alt="বাচ্চাদের ফান টি-শার্ট">
-                        <h3>বাচ্চাদের ফান টি-শার্ট</h3>
-                        <p>খেলার জন্য আরামদায়ক ও রঙিন টি-শার্ট।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="বাচ্চাদের ফান টি-শার্ট">বাচ্চাদের ফান টি-শার্ট</h3>
+                        <p data-description="খেলার জন্য আরামদায়ক ও রঙিন টি-শার্ট।">খেলার জন্য আরামদায়ক ও রঙিন টি-শার্ট।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.8"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳1900</p>
+                        <p class="price" data-price="1900">৳1900</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/pants.jpeg" alt="স্মার্ট ট্রাউজার">
-                        <h3>স্মার্ট ট্রাউজার</h3>
-                        <p>অফিস ও ক্যাজুয়াল ব্যবহারের জন্য উপযুক্ত।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="স্মার্ট ট্রাউজার">স্মার্ট ট্রাউজার</h3>
+                        <p data-description="অফিস ও ক্যাজুয়াল ব্যবহারের জন্য উপযুক্ত।">অফিস ও ক্যাজুয়াল ব্যবহারের জন্য উপযুক্ত।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.6"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳4500</p>
+                        <p class="price" data-price="4500">৳4500</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/3pis.jpeg" alt="ফ্যাশনেবল থ্রি-পিস">
-                        <h3>ফ্যাশনেবল থ্রি-পিস</h3>
-                        <p>আধুনিক ডিজাইন ও আরামদায়ক পোশাক।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="ফ্যাশনেবল থ্রি-পিস">ফ্যাশনেবল থ্রি-পিস</h3>
+                        <p data-description="আধুনিক ডিজাইন ও আরামদায়ক পোশাক।">আধুনিক ডিজাইন ও আরামদায়ক পোশাক।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.5"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2900</p>
+                        <p class="price" data-price="2900">৳2900</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/sharee.jpeg" alt="পার্টি ওয়্যার শাড়ী">
-                        <h3>পার্টি ওয়্যার শাড়ী</h3>
-                        <p>যেকোনো অনুষ্ঠানে আপনাকে মানানসই করবে।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="পার্টি ওয়্যার শাড়ী">পার্টি ওয়্যার শাড়ী</h3>
+                        <p data-description="যেকোনো অনুষ্ঠানে আপনাকে মানানসই করবে।">যেকোনো অনুষ্ঠানে আপনাকে মানানসই করবে।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.7"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3800</p>
+                        <p class="price" data-price="3800">৳3800</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/3pis.jpeg" alt="ক্যাজুয়াল থ্রি-পিস">
-                        <h3>ক্যাজুয়াল থ্রি-পিস</h3>
-                        <p>দৈনিক ব্যবহারের জন্য হালকা ও আরামদায়ক।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="ক্যাজুয়াল থ্রি-পিস">ক্যাজুয়াল থ্রি-পিস</h3>
+                        <p data-description="দৈনিক ব্যবহারের জন্য হালকা ও আরামদায়ক।">দৈনিক ব্যবহারের জন্য হালকা ও আরামদায়ক।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.3"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2100</p>
+                        <p class="price" data-price="2100">৳2100</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/shirts.jpeg" alt="ফর্মাল শার্ট">
-                        <h3>ফর্মাল শার্ট</h3>
-                        <p>অফিস ও মিটিংয়ের জন্য সেরা ফর্মাল শার্ট।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="ফর্মাল শার্ট">ফর্মাল শার্ট</h3>
+                        <p data-description="অফিস ও মিটিংয়ের জন্য সেরা ফর্মাল শার্ট।">অফিস ও মিটিংয়ের জন্য সেরা ফর্মাল শার্ট।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.8"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3300</p>
+                        <p class="price" data-price="3300">৳3300</p>
                     </div>
                     <div class="product-card" data-category="বাচ্চা">
                         <img src="images/child set.jpeg" alt="বেবি কমপ্লিট সেট">
-                        <h3>বেবি কমপ্লিট সেট</h3>
-                        <p>নরম ফ্যাব্রিক ও চমৎকার ডিজাইন।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="বেবি কমপ্লিট সেট">বেবি কমপ্লিট সেট</h3>
+                        <p data-description="নরম ফ্যাব্রিক ও চমৎকার ডিজাইন।">নরম ফ্যাব্রিক ও চমৎকার ডিজাইন।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.9"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳1700</p>
+                        <p class="price" data-price="1700">৳1700</p>
                     </div>
                     <div class="product-card" data-category="বাচ্চা">
                         <img src="images/child girl tshirts.jpeg" alt="বাচ্চাদের গার্লস টি-শার্ট">
-                        <h3>বাচ্চাদের গার্লস টি-শার্ট</h3>
-                        <p>মেয়েদের জন্য সুন্দর ডিজাইন ও আরামদায়ক টি-শার্ট।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="বাচ্চাদের গার্লস টি-শার্ট">বাচ্চাদের গার্লস টি-শার্ট</h3>
+                        <p data-description="মেয়েদের জন্য সুন্দর ডিজাইন ও আরামদায়ক টি-শার্ট।">মেয়েদের জন্য সুন্দর ডিজাইন ও আরামদায়ক টি-শার্ট।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.4"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2600</p>
+                        <p class="price" data-price="2600">৳2600</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/pants.jpeg" alt="ক্ল্যাসিক ডেনিম">
-                        <h3>ক্ল্যাসিক ডেনিম</h3>
-                        <p>দীর্ঘস্থায়ী ও স্টাইলিশ, সব বয়সের জন্য উপযুক্ত।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="ক্ল্যাসিক ডেনিম">ক্ল্যাসিক ডেনিম</h3>
+                        <p data-description="দীর্ঘস্থায়ী ও স্টাইলিশ, সব বয়সের জন্য উপযুক্ত।">দীর্ঘস্থায়ী ও স্টাইলিশ, সব বয়সের জন্য উপযুক্ত।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.7"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳4200</p>
+                        <p class="price" data-price="4200">৳4200</p>
                     </div>
                     <div class="product-card" data-category="বাচ্চা">
                         <img src="images/child girl set.jpeg" alt="বেবি গার্ল সেট">
-                        <h3>বেবি গার্ল সেট</h3>
-                        <p>নরম ফেব্রিকের তৈরি সম্পূর্ণ সেট, আপনার বাচ্চার জন্য সেরা।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="বেবি গার্ল সেট">বেবি গার্ল সেট</h3>
+                        <p data-description="নরম ফেব্রিকের তৈরি সম্পূর্ণ সেট, আপনার বাচ্চার জন্য সেরা।">নরম ফেব্রিকের তৈরি সম্পূর্ণ সেট, আপনার বাচ্চার জন্য সেরা।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.8"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3100</p>
+                        <p class="price" data-price="3100">৳3100</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/pants.jpeg" alt="স্পোর্টস প্যান্ট">
-                        <h3>স্পোর্টস প্যান্ট</h3>
-                        <p>ব্যায়াম ও স্পোর্টসের জন্য আরামদায়ক প্যান্ট।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="স্পোর্টস প্যান্ট">স্পোর্টস প্যান্ট</h3>
+                        <p data-description="ব্যায়াম ও স্পোর্টসের জন্য আরামদায়ক প্যান্ট।">ব্যায়াম ও স্পোর্টসের জন্য আরামদায়ক প্যান্ট।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.2"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2400</p>
+                        <p class="price" data-price="2400">৳2400</p>
                     </div>
                     <div class="product-card" data-category="বাচ্চা">
                         <img src="images/child stylis.jpeg" alt="স্টাইলিশ বেবি ওয়্যার">
-                        <h3>স্টাইলিশ বেবি ওয়্যার</h3>
-                        <p>বিশেষ দিনের জন্য আপনার সোনামণির স্টাইলিশ পোশাক।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="স্টাইলিশ বেবি ওয়্যার">স্টাইলিশ বেবি ওয়্যার</h3>
+                        <p data-description="বিশেষ দিনের জন্য আপনার সোনামণির স্টাইলিশ পোশাক।">বিশেষ দিনের জন্য আপনার সোনামণির স্টাইলিশ পোশাক।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.6"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3700</p>
+                        <p class="price" data-price="3700">৳3700</p>
                     </div>
                     <div class="product-card" data-category="মহিলা">
                         <img src="images/pants.jpeg" alt="লুস ফিট ট্রাউজার">
-                        <h3>লুস ফিট ট্রাউজার</h3>
-                        <p>আরামদায়ক ও আধুনিক, গ্রীষ্মকালের জন্য উপযুক্ত।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="লুস ফিট ট্রাউজার">লুস ফিট ট্রাউজার</h3>
+                        <p data-description="আরামদায়ক ও আধুনিক, গ্রীষ্মকালের জন্য উপযুক্ত।">আরামদায়ক ও আধুনিক, গ্রীষ্মকালের জন্য উপযুক্ত।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.0"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2000</p>
+                        <p class="price" data-price="2000">৳2000</p>
                     </div>
                     <div class="product-card" data-category="পুরুষ">
                         <img src="images/pants.jpeg" alt="স্মার্ট ক্যাজুয়াল প্যান্ট">
-                        <h3>স্মার্ট ক্যাজুয়াল প্যান্ট</h3>
-                        <p>দৈনিক ব্যবহারের জন্য সেরা, আধুনিক ডিজাইন।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="স্মার্ট ক্যাজুয়াল প্যান্ট">স্মার্ট ক্যাজুয়াল প্যান্ট</h3>
+                        <p data-description="দৈনিক ব্যবহারের জন্য সেরা, আধুনিক ডিজাইন।">দৈনিক ব্যবহারের জন্য সেরা, আধুনিক ডিজাইন।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.5"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳3400</p>
+                        <p class="price" data-price="3400">৳3400</p>
                     </div>
                     <div class="product-card" data-category="বাচ্চা">
                         <img src="images/child set.jpeg" alt="বাচ্চাদের পোশাক সেট">
-                        <h3>বাচ্চাদের পোশাক সেট</h3>
-                        <p>রঙিন ও মজাদার সেট, আপনার বাচ্চার জন্য উপযুক্ত।</p>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                        <h3 data-title="বাচ্চাদের পোশাক সেট">বাচ্চাদের পোশাক সেট</h3>
+                        <p data-description="রঙিন ও মজাদার সেট, আপনার বাচ্চার জন্য উপযুক্ত।">রঙিন ও মজাদার সেট, আপনার বাচ্চার জন্য উপযুক্ত।</p>
                         <div class="rating-section">
                             <span class="auto-rating" data-rating="4.7"></span>
                             <div class="user-rating" data-current-rating="0"></div>
                         </div>
-                        <p class="price">৳2300</p>
+                        <p class="price" data-price="2300">৳2300</p>
                     </div>
                 </div>
             </div>
@@ -1169,12 +1654,41 @@
         <p>&copy; ২০২৫ আমার দোকান। সকল অধিকার সংরক্ষিত।</p>
     </footer>
 
+    <div class="product-modal-overlay" id="productModal">
+        <div class="product-modal-content">
+            <button class="product-modal-close" id="closeModal">&times;</button>
+            <img src="" alt="" class="modal-product-img" id="modalProductImg">
+            <h3 class="modal-product-title" id="modalProductTitle"></h3>
+            <p class="modal-product-desc" id="modalProductDesc"></p>
+            <div class="modal-rating-section">
+                <span class="auto-rating" id="modalAutoRating"></span>
+            </div>
+            <p class="modal-product-price" id="modalProductPrice"></p>
+            <a href="#" target="_blank" class="modal-whatsapp-button" id="modalWhatsappButton">
+                <i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার করুন
+            </a>
+        </div>
+    </div>
+
+    <div class="image-zoom-overlay" id="imageZoomModal">
+        <div class="image-zoom-content">
+            <button class="image-zoom-close" id="closeImageZoom">&times;</button>
+            <img src="" alt="Zoomed Product Image" id="zoomedImage">
+        </div>
+        <div class="zoom-slider-container">
+            <i class="fas fa-search-minus"></i>
+            <input type="range" id="zoomSlider" class="zoom-slider" min="100" max="300" value="100">
+            <i class="fas fa-search-plus"></i>
+        </div>
+    </div>
+
     <script>
         // Store all product cards initially
         const allProductCards = Array.from(document.querySelectorAll('.product-card'));
         const productList = document.querySelector('.product-list');
         const header = document.querySelector('header');
         const body = document.body;
+        const whatsappNumber = "8801925975503"; // Your WhatsApp number
 
         // Function to set body padding top based on header height
         function setBodyPadding() {
@@ -1339,7 +1853,7 @@
                 if (isNaN(autoRating) || autoRating < 4.00 || autoRating > 5.00) {
                     autoRating = (Math.random() * (5.00 - 4.00) + 4.00).toFixed(2);
                 }
-                autoRatingSpan.innerHTML = ` (${autoRating})`; // Display as (X.XX)
+                autoRatingSpan.innerHTML = `${generateStarIcons(autoRating)} (${autoRating})`; // Display stars and number
 
                 // Render user rating stars
                 function renderStars(currentRating) {
@@ -1394,6 +1908,120 @@
                 });
             });
         }
+
+        function generateStarIcons(rating) {
+            let starsHtml = '';
+            const fullStars = Math.floor(rating);
+            const halfStar = rating - fullStars >= 0.5;
+
+            for (let i = 0; i < fullStars; i++) {
+                starsHtml += '<i class="fas fa-star"></i>';
+            }
+            if (halfStar) {
+                starsHtml += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = 0; i < (5 - fullStars - (halfStar ? 1 : 0)); i++) {
+                starsHtml += '<i class="far fa-star"></i>'; // Empty star
+            }
+            return `<span class="stars">${starsHtml}</span>`;
+        }
+
+        // Product Pop-up Logic
+        const productModal = document.getElementById('productModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const modalProductImg = document.getElementById('modalProductImg');
+        const modalProductTitle = document.getElementById('modalProductTitle');
+        const modalProductDesc = document.getElementById('modalProductDesc');
+        const modalAutoRating = document.getElementById('modalAutoRating');
+        const modalProductPrice = document.getElementById('modalProductPrice');
+        const modalWhatsappButton = document.getElementById('modalWhatsappButton');
+
+        function openModal(product) {
+            modalProductImg.src = product.querySelector('img').src;
+            modalProductTitle.textContent = product.querySelector('h3').dataset.title;
+            modalProductDesc.textContent = product.querySelector('p').dataset.description;
+            
+            // Get auto rating from the card and display it in the modal
+            const autoRatingValue = product.querySelector('.auto-rating').dataset.rating;
+            modalAutoRating.innerHTML = `${generateStarIcons(parseFloat(autoRatingValue))} (${autoRatingValue})`;
+
+            modalProductPrice.textContent = `৳${product.querySelector('.price').dataset.price}`;
+            
+            // Construct WhatsApp message with product details
+            const productName = product.querySelector('h3').dataset.title;
+            const productPrice = product.querySelector('.price').dataset.price;
+            const whatsappMessage = `আমি "${productName}" পণ্যটি (৳${productPrice}) অর্ডার করতে চাই।`;
+            modalWhatsappButton.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+            productModal.classList.add('active');
+            body.style.overflow = 'hidden'; // Prevent body scroll when modal is open
+        }
+
+        function closeModal() {
+            productModal.classList.remove('active');
+            body.style.overflow = 'auto'; // Restore body scroll
+        }
+
+        closeModalButton.addEventListener('click', closeModal);
+        productModal.addEventListener('click', (e) => {
+            // Close modal if clicked outside the content area
+            if (e.target === productModal) {
+                closeModal();
+            }
+        });
+
+        // Add event listener to each product card to open modal (unless zoom icon is clicked)
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', (event) => {
+                // Check if the clicked element or its parent is the zoom-icon
+                if (!event.target.closest('.zoom-icon')) {
+                    openModal(card);
+                }
+            });
+        });
+
+
+        // Image Zoom Pop-up Logic with Slider
+        const imageZoomModal = document.getElementById('imageZoomModal');
+        const closeImageZoomButton = document.getElementById('closeImageZoom');
+        const zoomedImage = document.getElementById('zoomedImage');
+        const zoomSlider = document.getElementById('zoomSlider');
+
+        function openImageZoom(imageSrc) {
+            zoomedImage.src = imageSrc;
+            zoomedImage.style.transform = 'scale(1)'; // Reset zoom when opening
+            zoomSlider.value = 100; // Reset slider to default
+            imageZoomModal.classList.add('active');
+            body.style.overflow = 'hidden'; // Prevent body scroll
+        }
+
+        function closeImageZoom() {
+            imageZoomModal.classList.remove('active');
+            body.style.overflow = 'auto'; // Restore body scroll
+            zoomedImage.style.transform = 'scale(1)'; // Ensure image is reset
+        }
+
+        closeImageZoomButton.addEventListener('click', closeImageZoom);
+        imageZoomModal.addEventListener('click', (e) => {
+            if (e.target === imageZoomModal || e.target === closeImageZoomButton) {
+                closeImageZoom();
+            }
+        });
+
+        zoomSlider.addEventListener('input', () => {
+            const zoomLevel = zoomSlider.value / 100; // Convert 100-300 to 1-3
+            zoomedImage.style.transform = `scale(${zoomLevel})`;
+        });
+
+
+        // Add event listener to each zoom icon
+        document.querySelectorAll('.product-card .zoom-icon').forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent card click event from firing
+                const imageSrc = icon.previousElementSibling.src; // Get img src, assuming img is the sibling
+                openImageZoom(imageSrc);
+            });
+        });
 
 
         // Initial animation for product cards and initialize ratings on page load
