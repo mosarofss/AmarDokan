@@ -3,75 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আমার দোকান</title>
+    <title>আমার দোকান - প্রিমিয়াম কালেকশন</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* Global Styles */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif; /* Modern, clean font */
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
-            color: #333;
-            line-height: 1.7;
+            background-color: #f8f9fa; /* Very light grey, almost white for a clean look */
+            color: #343a40; /* Darker grey for primary text */
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            scroll-behavior: smooth; /* Smooth scroll for all links */
+            text-rendering: optimizeLegibility; /* Better font rendering */
+            -webkit-font-smoothing: antialiased; /* Anti-aliasing for smooth fonts */
+            -moz-osx-font-smoothing: grayscale;
+            width: 100vw; /* Ensure body takes full viewport width */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+
+        /* Adjust body padding dynamically for fixed header */
+        body.has-fixed-header {
+            padding-top: var(--header-height, 80px); /* Default value if JS not loaded */
         }
 
         * {
             box-sizing: border-box;
         }
 
+        /* Utility Classes */
+        .container {
+            max-width: 1920px; /* Wider container for more content space on largest screens */
+            margin: 0 auto;
+            padding: 0 max(20px, 2.5vw); /* Max 20px padding, or 2.5vw if smaller */
+        }
+
         /* Header Styles */
         header {
-            background-color: #007bff;
+            background-color: #1a237e; /* Deep blue, very premium */
             color: white;
-            padding: 0.8rem 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            padding: 1rem 0; /* Slightly more padding */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Soft, subtle shadow */
+            position: fixed; /* Fixed header for all devices */
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%; /* Ensure full width */
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: #0d1246; /* Even darker blue on scroll for depth */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
         }
 
         .header-container {
             display: flex;
-            flex-direction: column;
-            max-width: 1200px;
-            margin: 0 auto;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 1rem;
+            gap: 0.75rem;
         }
 
         .logo img {
-            max-height: 40px;
+            max-height: 55px; /* Larger, more impactful logo */
             border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: 3px solid #f8f9fa; /* Subtle, clean border */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Logo shadow */
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05); /* Slight scale on hover */
         }
 
         .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-family: 'Montserrat', sans-serif; /* Different font for logo text */
+            font-size: 2.1rem; /* Larger, more striking title */
+            font-weight: 700;
             margin: 0;
-            flex-grow: 1;
-            text-align: center;
+            color: white;
+            letter-spacing: -0.7px; /* Tighter letter spacing for sleek look */
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-link:hover {
+            opacity: 0.9;
         }
 
         .hamburger {
             display: none;
             cursor: pointer;
             padding: 0.5rem;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 0; /* Hide default icon size */
+            position: relative;
+            z-index: 1001; /* Ensure it's above everything */
         }
 
         .hamburger i {
-            font-size: 1.5rem;
-            color: white;
+            font-size: 2.2rem; /* Larger hamburger icon */
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger:hover i {
+            transform: scale(1.1);
         }
 
         nav ul {
@@ -80,36 +133,36 @@
             justify-content: center;
             margin: 0;
             padding: 0;
-        }
-
-        nav ul li {
-            margin: 0 1rem;
+            gap: 2.8rem; /* More spacing for desktop nav */
         }
 
         nav ul li a {
             color: white;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-            padding: 0.3rem 0;
+            font-weight: 600;
+            font-size: 1.15rem; /* Slightly larger nav links */
+            transition: color 0.3s ease, transform 0.2s ease;
+            padding: 0.5rem 0;
             position: relative;
+            letter-spacing: 0.5px;
         }
 
         nav ul li a:hover,
         nav ul li a.active {
-            color: #f1c40f;
+            color: #ffd700; /* Gold color for active/hover */
+            transform: translateY(-3px); /* More pronounced lift */
         }
 
         nav ul li a:after {
             content: '';
             position: absolute;
             left: 0;
-            bottom: -2px;
+            bottom: -5px; /* Slightly lower underline */
             width: 0;
-            height: 2px;
-            background-color: #f1c40f;
-            transition: width 0.3s ease;
+            height: 4px; /* Thicker, more substantial underline */
+            background-color: #ffd700;
+            border-radius: 2px;
+            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother animation */
         }
 
         nav ul li a:hover:after,
@@ -117,578 +170,1102 @@
             width: 100%;
         }
 
-        /* Category Selector Styles */
-        .category-selector {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .category-selector button {
-            background-color: #e9ecef;
-            color: #333;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            margin: 0 0.5rem;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            font-weight: 500;
-        }
-
-        .category-selector button:hover,
-        .category-selector button.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        /* Main Styles */
+        /* Main Content Wrapper */
         main {
-            padding: 2rem;
-            min-height: calc(100vh - 140px);
+            max-width: 1920px; /* Matches container width */
+            margin: 0 auto;
+            padding: 2.5rem 0;
+            transition: filter 0.3s ease, pointer-events 0.3s ease; /* For blur effect */
         }
 
+        /* Hero Section */
         #home {
             text-align: center;
-            padding: 4rem 0;
-            background-image: url('hero-image.jpg');
+            padding: 10rem 0; /* Even more expansive hero section */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/hero-image.jpg'); /* Darker, more cinematic overlay */
             background-size: cover;
             background-position: center;
-            background-blend-mode: multiply;
-            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 18px; /* More rounded corners */
+            margin-bottom: 4.5rem;
+            overflow: hidden;
+            position: relative;
+            animation: fadeIn 1s ease-out; /* Fade in animation */
+            min-height: 600px; /* Minimum height for consistent look on large screens */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         #home h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4.8rem; /* Grander heading */
+            margin-bottom: 1.8rem;
+            font-weight: 800; /* Extra bold */
             color: #fff;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7); /* More prominent shadow */
+            letter-spacing: -1.2px;
+            line-height: 1.1;
+            max-width: 900px; /* Constrain width for better readability */
         }
 
         #home p {
-            font-size: 1.3rem;
-            color: #eee;
-            margin-bottom: 2rem;
+            font-size: 1.7rem; /* Larger, inviting paragraph */
+            color: #e0e0e0;
+            margin-bottom: 3.5rem;
             max-width: 70%;
             margin-left: auto;
             margin-right: auto;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            font-weight: 300; /* Lighter weight for paragraph */
         }
 
         .cta-button {
             display: inline-block;
-            background-color: #f1c40f;
-            color: #333;
-            padding: 0.8rem 2rem;
-            border-radius: 5px;
+            background-color: #00c853; /* Vibrant green for primary CTA */
+            color: white;
+            padding: 1.3rem 3.5rem; /* More generous padding */
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-            font-size: 1.1rem;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            border: none;
+            position: relative; /* For pseudo-elements */
+            overflow: hidden; /* Hide overflow for hover effect */
+        }
+
+        .cta-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.4s ease-out;
+            transform: skewX(-20deg);
+        }
+
+        .cta-button:hover:before {
+            left: 100%;
         }
 
         .cta-button:hover {
-            background-color: #e6b800;
+            background-color: #00a040; /* Darker green on hover */
+            transform: translateY(-7px) scale(1.03); /* More noticeable lift and slight scale */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
         }
 
-        #products {
-            padding-top: 4rem;
-        }
-
-        #products h2 {
-            font-size: 2rem;
+        /* Section Headings */
+        section h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem; /* Larger section titles */
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3.5rem;
             font-weight: 700;
-            color: #007bff;
+            color: #1a237e; /* Deep blue for section headings */
+            position: relative;
+            padding-bottom: 18px; /* More space for underline */
+            letter-spacing: -0.7px;
         }
 
+        section h2:after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 120px; /* Wider underline */
+            height: 6px; /* Thicker underline */
+            background-color: #ffd700; /* Gold underline */
+            border-radius: 4px;
+        }
+
+        /* Category Selector Styles */
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.2rem; /* More space between buttons */
+            margin-bottom: 4rem;
+            padding: 0 max(20px, 2.5vw); /* Max 20px padding, or 2.5vw if smaller */
+        }
+
+        .category-selector button {
+            background-color: #e3f2fd; /* Light blue background */
+            color: #1a237e; /* Deep blue text */
+            border: 2px solid #a7c0e0; /* Subtle border */
+            padding: 1rem 2.5rem; /* More padding */
+            border-radius: 35px; /* Slightly more rounded than pill */
+            font-size: 1.15rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        .category-selector button:hover,
+        .category-selector button.active {
+            background-color: #1a237e; /* Deep blue on hover/active */
+            color: white;
+            transform: translateY(-5px) scale(1.03); /* More pronounced lift and scale */
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.3);
+            border-color: #ffd700; /* Gold border on active */
+        }
+
+        /* Product List & Cards */
         .product-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            /* Auto-fit with minmax for more columns on larger screens, smaller base size */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 3rem; /* More space between cards */
+            margin-top: 2.5rem;
+            padding: 0 max(20px, 2.5vw); /* Max 20px padding, or 2.5vw if smaller */
         }
 
         .product-card {
             background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem; /* More internal padding */
+            border-radius: 16px; /* Nicely rounded */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft, expansive shadow */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 100%; /* Ensure uniform height within grid row */
+            overflow: hidden;
+            position: relative;
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(30px) scale(0.95); /* Initial state for animation */
+        }
+
+        @keyframes cardPopUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-12px) scale(1.03); /* Stronger lift and slight scale */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); /* Deeper shadow on hover */
         }
 
         .product-card img {
             width: 100%;
-            border-radius: 8px;
-            aspect-ratio: 1;
-            object-fit: cover;
+            border-radius: 12px;
+            aspect-ratio: 1 / 1; /* Force square aspect ratio */
+            object-fit: cover; /* Ensure image covers the area */
             margin-bottom: 1.5rem;
+            border: 1px solid #e0e0e0; /* Very subtle border */
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.04); /* Image slightly scales on card hover */
         }
 
         .product-card h3 {
-            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem; /* Larger product title */
             margin-top: 0;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-            color: #2c3e50;
+            margin-bottom: 0.7rem;
+            font-weight: 700;
+            color: #212121; /* Darker, sophisticated grey */
+            flex-shrink: 0;
+            line-height: 1.3;
         }
 
         .product-card p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 1rem;
-            flex-grow: 1;
+            font-size: 1.05rem; /* Clearer description text */
+            color: #616161; /* Muted grey for description */
+            margin-bottom: 1rem; /* Reduced margin for rating */
+            flex-grow: 1; /* Allow description to take available height */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limit description to 3 lines */
+            -webkit-box-orient: vertical;
+            line-height: 1.5;
         }
+
+        .product-card .rating-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            color: #555;
+            flex-shrink: 0;
+        }
+
+        .product-card .rating-section .stars {
+            color: #ffc107; /* Gold color for stars */
+            margin-right: 0.5rem;
+        }
+
+        .product-card .rating-section .auto-rating {
+            font-weight: 600;
+            color: #333;
+        }
+        .product-card .rating-section .user-rating .fa-star {
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.1s ease;
+        }
+        .product-card .rating-section .user-rating .fa-star:hover {
+            transform: scale(1.2);
+        }
+        .product-card .rating-section .user-rating .fa-star.active {
+            color: #ffc107;
+        }
+        .product-card .rating-section .user-rating .fa-star.inactive {
+            color: #e0e0e0; /* Lighter grey for inactive stars */
+        }
+
 
         .product-card .price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #007bff;
-            margin-bottom: 1.5rem;
+            font-size: 2.4rem; /* Very prominent price */
+            font-weight: 800; /* Extra bold price */
+            color: #d32f2f; /* Stronger red for price */
+            margin-top: 1rem;
+            margin-bottom: 0;
+            flex-shrink: 0;
+            letter-spacing: -0.7px;
         }
 
+        /* WhatsApp Button */
         .whatsapp-button {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            background-color: #25D366;
+            justify-content: center;
+            background-color: #25D366; /* WhatsApp green */
             color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 5px;
+            padding: 1.1rem 2.8rem; /* Generous padding */
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            transition: background-color 0.3s ease;
-            margin-top: 2rem;
-            font-size: 1.1rem;
-            margin-left: auto;
-            margin-right: auto;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            font-size: 1.25rem;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 35px; /* Higher from bottom */
+            right: 35px; /* More from right */
             z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); /* Stronger, more visible shadow */
+            border: none;
         }
 
         .whatsapp-button:hover {
-            background-color: #128C7E;
+            background-color: #128C7E; /* Darker green on hover */
+            transform: scale(1.1); /* More pronounced pop */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
         }
 
         .whatsapp-button i {
-            margin-right: 0.75rem;
-            font-size: 1.3rem;
+            margin-right: 1rem; /* More space for icon */
+            font-size: 1.6rem; /* Larger icon */
         }
 
+        /* Contact Section */
         #contact {
             text-align: center;
-            padding: 4rem 0;
-            background-color: #e9ecef;
-            border-top: 1px solid #dee2e6;
-        }
-
-        #contact h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-            color: #007bff;
-        }
-
-        #contact p {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 2rem;
+            padding: 6rem max(20px, 2.5vw); /* Max 20px padding, or 2.5vw if smaller */
+            background-color: #f0f2f5; /* Slightly darker than body background */
+            border-top: 1px solid #e0e0e0;
+            margin-top: 5rem;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Subtle shadow */
         }
 
         #contact .contact-intro {
-            font-size: 1.4rem;
+            font-size: 1.6rem; /* Larger intro text */
             color: #343a40;
-            margin-bottom: 1rem;
+            margin-bottom: 2.5rem;
             font-weight: 500;
         }
 
+        #contact p {
+            font-size: 1.4rem; /* Larger contact info */
+            color: #555;
+            margin-bottom: 1.8rem;
+        }
+
+        #contact p a {
+            color: #1a237e; /* Deep blue for links */
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        #contact p a:hover {
+            color: #0d47a1; /* Darker blue on hover */
+            text-decoration: underline;
+        }
+
+        /* Footer */
         footer {
-            background-color: #343a40;
-            color: white;
-            padding: 1rem;
+            background-color: #212121; /* Darker, more sophisticated grey */
+            color: #e0e0e0;
+            padding: 2.5rem; /* Generous padding */
             text-align: center;
-            margin-top: 2rem;
-            border-top: 1px solid #444;
+            margin-top: 0;
+            border-top: 1px solid #333;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
         }
 
         footer p {
-            font-size: 1rem;
+            margin: 0;
+            opacity: 0.85;
         }
 
         /* Responsive Styles */
-        @media (max-width: 992px) {
+        @media (max-width: 1920px) {
+            .container, main, .category-selector, .product-list, #contact {
+                /* Use max(20px, 1.5vw) for slightly more padding on very large screens,
+                   but still clamping it for visual appeal */
+                padding-left: max(20px, 1.5vw);
+                padding-right: max(20px, 1.5vw);
+            }
+        }
+
+        @media (max-width: 1600px) {
             .product-list {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             }
+        }
 
-            nav ul li {
-                margin: 0 1rem;
+        @media (max-width: 1200px) {
+            .container, main, .category-selector, .product-list, #contact {
+                padding-left: max(20px, 2vw);
+                padding-right: max(20px, 2vw);
             }
-
-            #home {
-                padding: 3rem 1rem;
+            .product-list {
+                gap: 2.5rem;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             }
+            #home h2 {
+                font-size: 4.2rem;
+            }
+            #home p {
+                font-size: 1.5rem;
+            }
+            .cta-button {
+                padding: 1.2rem 3.2rem;
+                font-size: 1.3rem;
+            }
+            section h2 {
+                font-size: 3.2rem;
+            }
+            .product-card {
+                padding: 1.8rem;
+            }
+        }
 
+        @media (max-width: 992px) {
             .logo h1 {
-                font-size: 1.4rem;
+                font-size: 1.8rem;
             }
-
+            nav ul {
+                gap: 2rem;
+            }
+            nav ul li a {
+                font-size: 1.05rem;
+            }
+            #home h2 {
+                font-size: 3.5rem;
+            }
+            #home p {
+                font-size: 1.3rem;
+            }
+            .cta-button {
+                padding: 1.1rem 3rem;
+                font-size: 1.15rem;
+            }
+            section h2 {
+                font-size: 2.8rem;
+            }
+            .product-list {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+                padding-left: max(15px, 1.5vw);
+                padding-right: max(15px, 1.5vw);
+            }
+            .product-card {
+                padding: 1.5rem;
+            }
+            .product-card h3 {
+                font-size: 1.5rem;
+            }
+            .product-card p {
+                font-size: 0.95rem;
+            }
+            .product-card .price {
+                font-size: 2rem;
+            }
             .whatsapp-button {
-                bottom: 10px;
-                right: 10px;
+                padding: 1rem 2.5rem;
+                font-size: 1.1rem;
+                bottom: 30px;
+                right: 30px;
+            }
+            #contact h2 {
+                font-size: 2.4rem;
+            }
+            #contact .contact-intro {
+                font-size: 1.3rem;
+            }
+            #contact p {
+                font-size: 1.1rem;
             }
         }
 
         @media (max-width: 768px) {
-            .product-list {
-                grid-template-columns: 1fr;
+            .header-container {
+                padding-left: 1rem;
+                padding-right: 1rem;
             }
-
+            .logo img {
+                max-height: 48px;
+            }
             .logo h1 {
-                font-size: 1.3rem;
-                text-align: left;
-                margin-left: 10px;
+                font-size: 1.6rem;
+                letter-spacing: -0.5px;
             }
-
             .hamburger {
                 display: block;
             }
-
             nav {
-                display: none;
-                padding: 0.5rem 0;
+                display: none; /* Hidden by default */
+                width: 100%;
+                order: 3;
+                background-color: #1a237e; /* Match header color */
+                padding: 1rem 0;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                position: absolute; /* Position relative to header */
+                top: 100%; /* Below the header */
+                left: 0;
+                transform-origin: top;
+                height: auto; /* Allow content to dictate height */
+                max-height: 0; /* Initially collapsed */
+                overflow: hidden; /* Hide overflow */
+                transition: max-height 0.4s ease-out; /* Smooth transition */
             }
 
             nav.active {
                 display: block;
+                max-height: 300px; /* Adjust based on content */
             }
-
+            
             nav ul {
                 flex-direction: column;
                 align-items: center;
+                gap: 0;
             }
-
             nav ul li {
-                margin: 0.5rem 0;
                 width: 100%;
                 text-align: center;
+                margin: 0.5rem 0;
             }
-
             nav ul li a {
                 display: block;
-                padding: 0.5rem;
-            }
-
-            #home h2 {
-                font-size: 2rem;
-            }
-
-            #home p {
+                padding: 1rem;
                 font-size: 1.1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            nav ul li:last-child a {
+                border-bottom: none;
+            }
+            #home {
+                padding: 7rem 1rem;
+                margin-bottom: 3.5rem;
+                border-radius: 12px;
+                min-height: 450px; /* Adjust min-height for smaller screens */
+            }
+            #home h2 {
+                font-size: 2.8rem;
+                margin-bottom: 1.2rem;
                 max-width: 90%;
             }
-
-            .whatsapp-button {
-                font-size: 1rem;
-                padding: 0.75rem 1.5rem;
+            #home p {
+                font-size: 1.1rem;
+                max-width: 95%;
             }
-
+            .cta-button {
+                padding: 1rem 2.5rem;
+                font-size: 1.05rem;
+            }
+            section h2 {
+                font-size: 2.2rem;
+                margin-bottom: 2.8rem;
+            }
+            section h2:after {
+                width: 100px;
+                height: 5px;
+            }
             .category-selector {
                 flex-direction: column;
+                align-items: center;
+                gap: 0.9rem;
+                margin-bottom: 3rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
             }
-
             .category-selector button {
-                margin: 0.5rem 0;
+                width: 90%;
+                max-width: 320px;
+                padding: 0.9rem 2rem;
+                font-size: 1.05rem;
+            }
+            .product-list {
+                grid-template-columns: 1fr; /* Single column for mobile */
+                padding-left: 1rem;
+                padding-right: 1rem;
+                gap: 2.2rem;
+            }
+            .product-card {
+                padding: 1.5rem;
+            }
+            .product-card h3 {
+                font-size: 1.4rem;
+            }
+            .product-card p {
+                font-size: 0.95rem;
+            }
+            .product-card .price {
+                font-size: 1.9rem;
+            }
+            .whatsapp-button {
+                font-size: 1.05rem;
+                padding: 0.9rem 2.2rem;
+                bottom: 25px;
+                right: 25px;
+            }
+            .whatsapp-button i {
+                font-size: 1.4rem;
+            }
+            #contact {
+                padding: 5rem 1rem;
+                margin-top: 4rem;
+                border-radius: 12px;
+            }
+            #contact h2 {
+                font-size: 2rem;
+            }
+            #contact .contact-intro {
+                font-size: 1.2rem;
+            }
+            #contact p {
+                font-size: 1rem;
+            }
+            footer {
+                padding: 2rem 1rem;
+                font-size: 0.9rem;
             }
         }
 
         @media (max-width: 576px) {
-            #home {
-                padding: 2rem 1rem;
-            }
-
-            #home h2 {
-                font-size: 1.8rem;
-            }
-
-            .logo h1 {
-                font-size: 1.2rem;
-            }
-
             .logo img {
-                max-height: 35px;
+                max-height: 40px;
             }
-
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            .hamburger i {
+                font-size: 2rem;
+            }
+            #home {
+                padding: 5rem 0.8rem;
+                margin-bottom: 2.5rem;
+                min-height: 350px;
+            }
+            #home h2 {
+                font-size: 2.2rem;
+                margin-bottom: 0.8rem;
+            }
+            #home p {
+                font-size: 0.95rem;
+                max-width: 100%;
+                margin-bottom: 2rem;
+            }
+            .cta-button {
+                padding: 0.9rem 2rem;
+                font-size: 1rem;
+            }
+            section h2 {
+                font-size: 1.9rem;
+                margin-bottom: 2rem;
+                padding-bottom: 12px;
+            }
+            section h2:after {
+                width: 70px;
+                height: 4px;
+            }
+            .category-selector {
+                gap: 0.8rem;
+                margin-bottom: 2.2rem;
+            }
+            .category-selector button {
+                padding: 0.8rem 1.6rem;
+                font-size: 0.95rem;
+            }
+            .product-list {
+                gap: 1.8rem;
+            }
+            .product-card {
+                padding: 1.2rem;
+            }
+            .product-card h3 {
+                font-size: 1.25rem;
+            }
+            .product-card p {
+                font-size: 0.85rem;
+            }
+            .product-card .price {
+                font-size: 1.7rem;
+            }
             .whatsapp-button {
                 font-size: 0.9rem;
-                padding: 0.5rem 1rem;
-                bottom: 5px;
-                right: 5px;
+                padding: 0.7rem 1.8rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-button i {
+                font-size: 1.2rem;
+                margin-right: 0.8rem;
+            }
+            #contact {
+                padding: 4rem 0.8rem;
+                margin-top: 3rem;
+            }
+            #contact h2 {
+                font-size: 1.8rem;
+            }
+            #contact .contact-intro {
+                font-size: 1.1rem;
+            }
+            #contact p {
+                font-size: 0.9rem;
+            }
+            footer {
+                padding: 1.8rem 0.8rem;
+                font-size: 0.8rem;
             }
         }
-
-        .logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: white;
-}
-
-.logo-link:hover {
-    text-decoration: none;
-    color: white;
-}
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
-    <div class="header-container">
-        <div class="logo">
-            <a href="#home" class="logo-link">
-                <img src="images/logo.png" alt="Store Logo">
-                <h1>আমার দোকান</h1>
-            </a>
-            <div class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="#home" class="logo-link">
+                    <img src="images/logo.png" alt="Store Logo">
+                    <h1>আমার দোকান</h1>
+                </a>
             </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle Navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#home" class="active">হোম</a></li>
+                    <li><a href="#products">পণ্য</a></li>
+                    <li><a href="#contact">যোগাযোগ</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav id="nav">
-            <ul>
-                <li><a href="#home" class="active">হোম</a></li>
-                <li><a href="#products">পণ্য</a></li>
-                <li><a href="#contact">যোগাযোগ</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+    </header>
 
-    <main>
+    <main id="main-content-wrapper">
         <section id="home" class="hero-content">
-            <h2>স্বাগতম আমাদের ই-কমার্স স্টোরে</h2>
-            <p>এখানে আপনি সেরা মানের পন্য খুঁজে পাবেন। আপনার পছন্দের পন্য কিনুন আর উপভোগ করুন দারুণ অভিজ্ঞতা।</p>
-            <a href="#products" class="cta-button">কিনতে শুরু করুন</a>
+            <h2>অনন্য স্টাইল, প্রিমিয়াম কোয়ালিটি</h2>
+            <p>আপনার প্রতিদিনের লুককে নতুন করে সাজাতে সেরা মানের পণ্য সংগ্রহ করুন। আমাদের এক্সক্লুসিভ কালেকশন আপনাকে মুগ্ধ করবে।</p>
+            <a href="#products" class="cta-button">আমাদের পণ্য দেখুন</a>
         </section>
 
         <section id="products">
-            <h2>পণ্য</h2>
-            <div class="category-selector">
-                <button data-category="all" class="active">সব</button>
-                <button data-category="পুরুষ">পুরুষ</button>
-                <button data-category="মহিলা">মহিলা</button>
-                <button data-category="বাচ্চা">বাচ্চা</button>
+            <div class="container">
+                <h2>আমাদের প্রিমিয়াম কালেকশন</h2>
+                <div class="category-selector">
+                    <button data-category="all" class="active">সব পণ্য</button>
+                    <button data-category="পুরুষ">পুরুষদের</button>
+                    <button data-category="মহিলা">মহিলাদের</button>
+                    <button data-category="বাচ্চা">বাচ্চাদের</button>
+                </div>
+                <div class="product-list">
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/pants.jpeg" alt="স্টাইলিশ ডেনিম প্যান্ট">
+                        <h3>স্টাইলিশ ডেনিম প্যান্ট</h3>
+                        <p>আধুনিক ডিজাইন ও আরামদায়ক ফ্যাব্রিক। প্রতিদিনের ব্যবহারের জন্য উপযুক্ত।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.8"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2500</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/sharee.jpeg" alt="ঐতিহ্যবাহী সিল্ক শাড়ী">
+                        <h3>ঐতিহ্যবাহী সিল্ক শাড়ী</h3>
+                        <p>উৎসবের জন্য মানানসই, হাতে বোনা সিল্ক শাড়ী। ঐতিহ্য ও আধুনিকতার ছোঁয়া।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.9"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3000</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/yoga.jpeg" alt="আরামদায়ক যোগা সেট">
+                        <h3>আরামদায়ক যোগা সেট</h3>
+                        <p>শরীরচর্চার জন্য পারফেক্ট, শ্বাসপ্রশ্বাসযোগ্য ফ্যাব্রিকের তৈরি।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.5"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳1500</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/shirts.jpeg" alt="প্রিমিয়াম ক্যাজুয়াল শার্ট">
+                        <h3>প্রিমিয়াম ক্যাজুয়াল শার্ট</h3>
+                        <p>ফ্যাশনেবল ও আরামদায়ক, আধুনিক পুরুষের জন্য সেরা পছন্দ।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.7"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳4000</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/tshirts.jpeg" alt="সফট কটন টি-শার্ট">
+                        <h3>সফট কটন টি-শার্ট</h3>
+                        <p>সারাদিন আরামদায়ক থাকতে সেরা কটন টি-শার্ট।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.2"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2200</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/pants.jpeg" alt="ট্রেন্ডি চিনো প্যান্ট">
+                        <h3>ট্রেন্ডি চিনো প্যান্ট</h3>
+                        <p>ক্যাজুয়াল ও ফর্মাল লুকের জন্য পারফেক্ট।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.6"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3500</p>
+                    </div>
+                    <div class="product-card" data-category="বাচ্চা">
+                        <img src="images/child stylis.jpeg" alt="কিউট বেবি সেট">
+                        <h3>কিউট বেবি সেট</h3>
+                        <p>ছোট্ট সোনামণির জন্য রঙিন ও আরামদায়ক পোশাক।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.9"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳1800</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/sharee.jpeg" alt="লেটেস্ট ডিজাইন শাড়ী">
+                        <h3>লেটেস্ট ডিজাইন শাড়ী</h3>
+                        <p>আধুনিকতার ছোঁয়া সহ নজরকাড়া শাড়ী।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.7"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2800</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/yoga.jpeg" alt="ফ্লেক্সিবল যোগা প্যান্ট">
+                        <h3>ফ্লেক্সিবল যোগা প্যান্ট</h3>
+                        <p>যোগা বা জিমের জন্য সেরা, সম্পূর্ণ ফ্লেক্সিবল।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.4"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3200</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/tshirts.jpeg" alt="গ্রাফিক প্রিন্ট টি-শার্ট">
+                        <h3>গ্রাফিক প্রিন্ট টি-শার্ট</h3>
+                        <p>তরুণদের পছন্দের নতুন ডিজাইনের টি-শার্ট।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.1"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2700</p>
+                    </div>
+                    <div class="product-card" data-category="বাচ্চা">
+                        <img src="images/child tshirts.jpeg" alt="বাচ্চাদের ফান টি-শার্ট">
+                        <h3>বাচ্চাদের ফান টি-শার্ট</h3>
+                        <p>খেলার জন্য আরামদায়ক ও রঙিন টি-শার্ট।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.8"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳1900</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/pants.jpeg" alt="স্মার্ট ট্রাউজার">
+                        <h3>স্মার্ট ট্রাউজার</h3>
+                        <p>অফিস ও ক্যাজুয়াল ব্যবহারের জন্য উপযুক্ত।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.6"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳4500</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/3pis.jpeg" alt="ফ্যাশনেবল থ্রি-পিস">
+                        <h3>ফ্যাশনেবল থ্রি-পিস</h3>
+                        <p>আধুনিক ডিজাইন ও আরামদায়ক পোশাক।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.5"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2900</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/sharee.jpeg" alt="পার্টি ওয়্যার শাড়ী">
+                        <h3>পার্টি ওয়্যার শাড়ী</h3>
+                        <p>যেকোনো অনুষ্ঠানে আপনাকে মানানসই করবে।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.7"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3800</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/3pis.jpeg" alt="ক্যাজুয়াল থ্রি-পিস">
+                        <h3>ক্যাজুয়াল থ্রি-পিস</h3>
+                        <p>দৈনিক ব্যবহারের জন্য হালকা ও আরামদায়ক।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.3"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2100</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/shirts.jpeg" alt="ফর্মাল শার্ট">
+                        <h3>ফর্মাল শার্ট</h3>
+                        <p>অফিস ও মিটিংয়ের জন্য সেরা ফর্মাল শার্ট।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.8"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3300</p>
+                    </div>
+                    <div class="product-card" data-category="বাচ্চা">
+                        <img src="images/child set.jpeg" alt="বেবি কমপ্লিট সেট">
+                        <h3>বেবি কমপ্লিট সেট</h3>
+                        <p>নরম ফ্যাব্রিক ও চমৎকার ডিজাইন।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.9"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳1700</p>
+                    </div>
+                    <div class="product-card" data-category="বাচ্চা">
+                        <img src="images/child girl tshirts.jpeg" alt="বাচ্চাদের গার্লস টি-শার্ট">
+                        <h3>বাচ্চাদের গার্লস টি-শার্ট</h3>
+                        <p>মেয়েদের জন্য সুন্দর ডিজাইন ও আরামদায়ক টি-শার্ট।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.4"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2600</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/pants.jpeg" alt="ক্ল্যাসিক ডেনিম">
+                        <h3>ক্ল্যাসিক ডেনিম</h3>
+                        <p>দীর্ঘস্থায়ী ও স্টাইলিশ, সব বয়সের জন্য উপযুক্ত।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.7"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳4200</p>
+                    </div>
+                    <div class="product-card" data-category="বাচ্চা">
+                        <img src="images/child girl set.jpeg" alt="বেবি গার্ল সেট">
+                        <h3>বেবি গার্ল সেট</h3>
+                        <p>নরম ফেব্রিকের তৈরি সম্পূর্ণ সেট, আপনার বাচ্চার জন্য সেরা।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.8"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3100</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/pants.jpeg" alt="স্পোর্টস প্যান্ট">
+                        <h3>স্পোর্টস প্যান্ট</h3>
+                        <p>ব্যায়াম ও স্পোর্টসের জন্য আরামদায়ক প্যান্ট।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.2"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2400</p>
+                    </div>
+                    <div class="product-card" data-category="বাচ্চা">
+                        <img src="images/child stylis.jpeg" alt="স্টাইলিশ বেবি ওয়্যার">
+                        <h3>স্টাইলিশ বেবি ওয়্যার</h3>
+                        <p>বিশেষ দিনের জন্য আপনার সোনামণির স্টাইলিশ পোশাক।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.6"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3700</p>
+                    </div>
+                    <div class="product-card" data-category="মহিলা">
+                        <img src="images/pants.jpeg" alt="লুস ফিট ট্রাউজার">
+                        <h3>লুস ফিট ট্রাউজার</h3>
+                        <p>আরামদায়ক ও আধুনিক, গ্রীষ্মকালের জন্য উপযুক্ত।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.0"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2000</p>
+                    </div>
+                    <div class="product-card" data-category="পুরুষ">
+                        <img src="images/pants.jpeg" alt="স্মার্ট ক্যাজুয়াল প্যান্ট">
+                        <h3>স্মার্ট ক্যাজুয়াল প্যান্ট</h3>
+                        <p>দৈনিক ব্যবহারের জন্য সেরা, আধুনিক ডিজাইন।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.5"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳3400</p>
+                    </div>
+                    <div class="product-card" data-category="বাচ্চা">
+                        <img src="images/child set.jpeg" alt="বাচ্চাদের পোশাক সেট">
+                        <h3>বাচ্চাদের পোশাক সেট</h3>
+                        <p>রঙিন ও মজাদার সেট, আপনার বাচ্চার জন্য উপযুক্ত।</p>
+                        <div class="rating-section">
+                            <span class="auto-rating" data-rating="4.7"></span>
+                            <div class="user-rating" data-current-rating="0"></div>
+                        </div>
+                        <p class="price">৳2300</p>
+                    </div>
+                </div>
             </div>
-            <div class="product-list">
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/pants.jpeg" alt="Product 1">
-                    <h3>Product 1</h3>
-                    <p>This is a description of product 1. এটি একটি সুন্দর পণ্য।</p>
-                    <p class="price">$25.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/sharee.jpeg" alt="Product 2">
-                    <h3>Product 2</h3>
-                    <p>This is a description of product 2. এটি একটি চমৎকার পণ্য।</p>
-                    <p class="price">$30.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/yoga.jpeg" alt="Product 3">
-                    <h3>Product 3</h3>
-                    <p>This is a description of product 3.</p>
-                    <p class="price">$15.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/shirts.jpeg" alt="Product 4">
-                    <h3>Product 4</h3>
-                    <p>This is a description of product 4.</p>
-                    <p class="price">$40.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/tshirts.jpeg" alt="Product 5">
-                    <h3>Product 5</h3>
-                    <p>This is a description of product 5.</p>
-                    <p class="price">$22.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/pants.jpeg" alt="Product 6">
-                    <h3>Product 6</h3>
-                    <p>This is a description of product 6.</p>
-                    <p class="price">$35.00</p>
-                </div>
-                <div class="product-card" data-category="বাচ্চা">
-                    <img src="images/child stylis.jpeg" alt="Product 7">
-                    <h3>Product 7</h3>
-                    <p>This is a description of product 7.</p>
-                    <p class="price">$18.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/sharee.jpeg" alt="Product 8">
-                    <h3>Product 8</h3>
-                    <p>This is a description of product 8.</p>
-                    <p class="price">$28.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/yoga.jpeg" alt="Product 9">
-                    <h3>Product 9</h3>
-                    <p>This is a description of product 9.</p>
-                    <p class="price">$32.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/tshirts.jpeg" alt="Product 10">
-                    <h3>Product 10</h3>
-                    <p>This is a description of product 10.</p>
-                    <p class="price">$27.00</p>
-                </div>
-                <div class="product-card" data-category="বাচ্চা">
-                    <img src="images/child tshirts.jpeg" alt="Product 11">
-                    <h3>Product 11</h3>
-                    <p>This is a description of product 11.</p>
-                    <p class="price">$19.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/pants.jpeg" alt="Product 12">
-                    <h3>Product 12</h3>
-                    <p>This is a description of product 12.</p>
-                    <p class="price">$45.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/3pis.jpeg" alt="Product 13">
-                    <h3>Product 13</h3>
-                    <p>This is a description of product 13.</p>
-                    <p class="price">$29.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/sharee.jpeg" alt="Product 14">
-                    <h3>Product 14</h3>
-                    <p>This is a description of product 14.</p>
-                    <p class="price">$38.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/3pis.jpeg" alt="Product 15">
-                    <h3>Product 15</h3>
-                    <p>This is a description of product 15.</p>
-                    <p class="price">$21.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/shirts.jpeg" alt="Product 16">
-                    <h3>Product 16</h3>
-                    <p>This is a description of product 16.</p>
-                    <p class="price">$33.00</p>
-                </div>
-                <div class="product-card" data-category="বাচ্চা">
-                    <img src="images/child set.jpeg" alt="Product 17">
-                    <h3>Product 17</h3>
-                    <p>This is a description of product 17.</p>
-                    <p class="price">$17.00</p>
-                </div>
-                <div class="product-card" data-category="বাচ্চা">
-                    <img src="images/child girl tshirts.jpeg" alt="Product 18">
-                    <h3>Product 18</h3>
-                    <p>This is a description of product 18.</p>
-                    <p class="price">$26.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/pants.jpeg" alt="Product 19">
-                    <h3>Product 19</h3>
-                    <p>This is a description of product 19.</p>
-                    <p class="price">$42.00</p>
-                </div>
-                <div class="product-card" data-category="বাচ্চা">
-                    <img src="images/child girl set.jpeg" alt="Product 20">
-                    <h3>Product 20</h3>
-                    <p>This is a description of product 20.</p>
-                    <p class="price">$31.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/pants.jpeg" alt="Product 21">
-                    <h3>Product 21</h3>
-                    <p>This is a description of product 21.</p>
-                    <p class="price">$24.00</p>
-                </div>
-                <div class="product-card" data-category="বাচ্চা">
-                    <img src="images/child stylis.jpeg" alt="Product 22">
-                    <h3>Product 22</h3>
-                    <p>This is a description of product 22.</p>
-                    <p class="price">$37.00</p>
-                </div>
-                <div class="product-card" data-category="মহিলা">
-                    <img src="images/pants.jpeg" alt="Product 23">
-                    <h3>Product 23</h3>
-                    <p>This is a description of product 23.</p>
-                    <p class="price">$20.00</p>
-                </div>
-                <div class="product-card" data-category="পুরুষ">
-                    <img src="images/pants.jpeg" alt="Product 24">
-                    <h3>Product 24</h3>
-                    <p>This is a description of product 24.</p>
-                    <p class="price">$34.00</p>
-                </div>
-                <div class="product-card" data-category="বাচ্চা">
-                    <img src="images/child set.jpeg" alt="Product 25">
-                    <h3>Product 25</h3>
-                    <p>This is a description of product 25.</p>
-                    <p class="price">$23.00</p>
-                </div>
-            </div>
-            <a href="https://wa.me/8801925975503" target="_blank" class="whatsapp-button">
-                <i class="fab fa-whatsapp"></i> অর্ডার করতে হোয়াটসঅ্যাপ করুন
+            <a href="https://wa.me/8801925975503" target="_blank" class="whatsapp-button" aria-label="Order on WhatsApp">
+                <i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার করুন
             </a>
         </section>
 
         <section id="contact">
-            <h2>যোগাযোগ</h2>
-            <p class="contact-intro">
-                পণ্য অর্ডার করতে, স্টক জানতে অথবা অন্য যেকোনো তথ্যের জন্য আমাদের হোয়াটসঅ্যাপে যোগাযোগ করুন।
-            </p>
-            <p>হোয়াটসঅ্যাপ নাম্বার: <a href="https://wa.me/8801925975503" target="_blank">8801925975503</a></p>
+            <div class="container">
+                <h2>যোগাযোগ</h2>
+                <p class="contact-intro">
+                    আপনার পছন্দের পণ্য অর্ডার করতে, স্টকের তথ্য জানতে অথবা অন্য যেকোনো বিস্তারিত তথ্যের জন্য সরাসরি আমাদের হোয়াটসঅ্যাপে যোগাযোগ করুন।
+                </p>
+                <p>আমাদের হোয়াটসঅ্যাপ নাম্বার: <a href="https://wa.me/8801925975503" target="_blank">8801925975503</a></p>
+                <p>আমরা আপনার সেবায় সর্বদা প্রস্তুত।</p>
+            </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; ২০২৫ আমাদের ই-কমার্স স্টোর। সর্বস্বত্ব সংরক্ষিত।</p>
+        <p>&copy; ২০২৫ আমার দোকান। সকল অধিকার সংরক্ষিত।</p>
     </footer>
 
     <script>
+        // Store all product cards initially
+        const allProductCards = Array.from(document.querySelectorAll('.product-card'));
+        const productList = document.querySelector('.product-list');
+        const header = document.querySelector('header');
+        const body = document.body;
+
+        // Function to set body padding top based on header height
+        function setBodyPadding() {
+            const headerHeight = header.offsetHeight;
+            body.style.setProperty('--header-height', `${headerHeight}px`);
+            body.classList.add('has-fixed-header');
+        }
+
+        // Initial padding setup
+        setBodyPadding();
+
+        // Recalculate padding on window resize
+        window.addEventListener('resize', setBodyPadding);
+
         // Mobile menu toggle
         const hamburger = document.getElementById('hamburger');
         const nav = document.getElementById('nav');
-        
+        const mainContentWrapper = document.getElementById('main-content-wrapper');
+
         hamburger.addEventListener('click', () => {
             nav.classList.toggle('active');
+            if (nav.classList.contains('active')) {
+                mainContentWrapper.style.filter = 'blur(4px)'; // Stronger blur
+                mainContentWrapper.style.pointerEvents = 'none'; // Disable interaction
+                document.body.style.overflow = 'hidden'; // Prevent body scroll
+                hamburger.setAttribute('aria-expanded', 'true');
+            } else {
+                mainContentWrapper.style.filter = 'none';
+                mainContentWrapper.style.pointerEvents = 'auto';
+                document.body.style.overflow = 'auto'; // Enable body scroll
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
         });
         
         // Close menu when a nav item is clicked (for mobile)
         document.querySelectorAll('nav a, .logo-link').forEach(anchor => {
-    anchor.addEventListener('click', function() {
-        if (window.innerWidth <= 768) {
-            nav.classList.remove('active');
-        }
-    });
-});
+            anchor.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    nav.classList.remove('active');
+                    mainContentWrapper.style.filter = 'none';
+                    mainContentWrapper.style.pointerEvents = 'auto';
+                    document.body.style.overflow = 'auto';
+                    hamburger.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
 
-        // Your existing JavaScript
+        // Close menu when clicking outside the nav on mobile
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth <= 768 && nav.classList.contains('active')) {
+                const isClickInsideNav = nav.contains(event.target);
+                const isClickOnHamburger = hamburger.contains(event.target);
+                if (!isClickInsideNav && !isClickOnHamburger) {
+                    nav.classList.remove('active');
+                    mainContentWrapper.style.filter = 'none';
+                    mainContentWrapper.style.pointerEvents = 'auto';
+                    document.body.style.overflow = 'auto';
+                    hamburger.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+
+        // Sticky header background change on scroll (still applies for fixed header)
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { // Adjust scroll threshold as needed
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling and active link highlighting
         document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
 
+                // Remove active class from all nav links
                 document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                // Add active class to the clicked link
                 this.classList.add('active');
 
                 const targetId = this.getAttribute('href').substring(1);
                 const targetSection = document.getElementById(targetId);
 
                 if (targetSection) {
-                    targetSection.scrollIntoView({
+                    const headerOffset = header.offsetHeight; // Get dynamic header height
+                    const elementPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset - 20; // Added extra padding for better scroll position
+
+                    window.scrollTo({
+                        top: offsetPosition,
                         behavior: 'smooth'
                     });
                 }
@@ -697,23 +1274,26 @@
 
         document.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
+            const headerOffset = header.offsetHeight; // Get dynamic header height
 
             document.querySelectorAll('section').forEach(section => {
                 const sectionId = section.getAttribute('id');
-                const sectionTop = section.offsetTop - 100;
+                // Adjust sectionTop to account for header height and a buffer, making active link switch sooner
+                const sectionTop = section.offsetTop - headerOffset - 100; 
                 const sectionHeight = section.offsetHeight;
 
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    document.querySelector(`nav a[href="#${sectionId}"]`).classList.add('active');
-                } else {
-                    document.querySelector(`nav a[href="#${sectionId}"]`).classList.remove('active');
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                    const correspondingLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+                    if (correspondingLink) {
+                        correspondingLink.classList.add('active');
+                    }
                 }
             });
         });
 
         // Category filter functionality
         const categoryButtons = document.querySelectorAll('.category-selector button');
-        const productCards = document.querySelectorAll('.product-card');
 
         categoryButtons.forEach(button => {
             button.addEventListener('click', function () {
@@ -721,14 +1301,112 @@
                 this.classList.add('active');
                 const category = this.dataset.category;
 
-                productCards.forEach(card => {
+                // Create a document fragment to append cards efficiently
+                const fragment = document.createDocumentFragment();
+                let index = 0;
+
+                allProductCards.forEach(card => {
                     if (category === 'all' || card.dataset.category === category) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
+                        // Reset opacity and transform to prepare for re-animation
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(30px) scale(0.95)';
+                        card.style.animation = 'none'; // Temporarily remove previous animation styles
+                        
+                        // Use requestAnimationFrame to ensure CSS properties are reset before applying new animation
+                        requestAnimationFrame(() => {
+                            card.style.animation = `cardPopUp 0.6s ease-out forwards ${index * 0.08}s`;
+                            index++;
+                        });
+                        fragment.appendChild(card);
                     }
                 });
+
+                // Clear current product list and append filtered cards
+                productList.innerHTML = '';
+                productList.appendChild(fragment);
             });
+        });
+
+        // Rating System Logic
+        function initializeRatings() {
+            document.querySelectorAll('.product-card').forEach(card => {
+                const autoRatingSpan = card.querySelector('.auto-rating');
+                const userRatingDiv = card.querySelector('.user-rating');
+
+                // Set automatic rating
+                let autoRating = parseFloat(autoRatingSpan.dataset.rating);
+                // Ensure it's between 4.00 and 5.00
+                if (isNaN(autoRating) || autoRating < 4.00 || autoRating > 5.00) {
+                    autoRating = (Math.random() * (5.00 - 4.00) + 4.00).toFixed(2);
+                }
+                autoRatingSpan.innerHTML = ` (${autoRating})`; // Display as (X.XX)
+
+                // Render user rating stars
+                function renderStars(currentRating) {
+                    userRatingDiv.innerHTML = ''; // Clear previous stars
+                    for (let i = 1; i <= 5; i++) {
+                        const star = document.createElement('i');
+                        star.classList.add('fas', 'fa-star');
+                        star.dataset.value = i;
+                        if (i <= currentRating) {
+                            star.classList.add('active');
+                            star.classList.remove('inactive');
+                        } else {
+                            star.classList.add('inactive');
+                            star.classList.remove('active');
+                        }
+                        userRatingDiv.appendChild(star);
+                    }
+                }
+
+                let currentRating = parseInt(userRatingDiv.dataset.currentRating);
+                renderStars(currentRating);
+
+                userRatingDiv.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('fa-star')) {
+                        const clickedRating = parseInt(event.target.dataset.value);
+                        userRatingDiv.dataset.currentRating = clickedRating; // Update data attribute
+                        renderStars(clickedRating); // Re-render stars based on new rating
+                        // In a real application, you would send this rating to your backend here
+                        // console.log(`Product rated: ${clickedRating} stars`);
+                    }
+                });
+
+                // Optional: Hover effect for stars
+                userRatingDiv.addEventListener('mouseover', (event) => {
+                    if (event.target.classList.contains('fa-star')) {
+                        const hoverRating = parseInt(event.target.dataset.value);
+                        userRatingDiv.querySelectorAll('.fa-star').forEach(star => {
+                            if (parseInt(star.dataset.value) <= hoverRating) {
+                                star.classList.add('active');
+                                star.classList.remove('inactive');
+                            } else {
+                                star.classList.add('inactive');
+                                star.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+
+                userRatingDiv.addEventListener('mouseout', () => {
+                    const savedRating = parseInt(userRatingDiv.dataset.currentRating);
+                    renderStars(savedRating); // Revert to saved rating on mouseout
+                });
+            });
+        }
+
+
+        // Initial animation for product cards and initialize ratings on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            allProductCards.forEach((card, index) => {
+                card.style.animation = `cardPopUp 0.6s ease-out forwards ${index * 0.08}s`;
+            });
+
+            // Set hero image path (assuming 'images' folder is relative to index.html)
+            const heroSection = document.getElementById('home');
+            heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/hero-image.jpg')`;
+
+            initializeRatings(); // Initialize rating stars for all products
         });
     </script>
 </body>
