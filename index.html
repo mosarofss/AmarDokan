@@ -369,9 +369,9 @@
             transition: transform 0.3s ease;
         }
 
-        .product-card:hover img {
-            transform: scale(1.04); /* Image slightly scales on card hover */
-        }
+        /* .product-card:hover img {
+            transform: scale(1.04); 
+        } */
 
         .product-card h3 {
             font-family: 'Montserrat', sans-serif;
@@ -455,14 +455,9 @@
             font-size: 1.2rem; /* Icon size */
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.2s ease;
-            z-index: 5; /* Above image but below modal overlay */
-            opacity: 0; /* Hidden by default */
-            transform: scale(0.8); /* Slightly smaller initially */
-        }
-
-        .product-card:hover .zoom-icon {
-            opacity: 1; /* Visible on hover */
-            transform: scale(1); /* Pop in effect */
+            z-index: 10; /* Ensure it's always on top */
+            /* opacity: 0; Initial state for hover effect, now always visible */
+            /* transform: scale(0.8); */
         }
 
         .product-card .zoom-icon:hover {
@@ -556,7 +551,7 @@
             opacity: 0.85;
         }
 
-        /* Product Pop-up Styles */
+        /* Product Pop-up Styles (Modified for smaller size and responsiveness) */
         .product-modal-overlay {
             position: fixed;
             top: 0;
@@ -580,21 +575,43 @@
 
         .product-modal-content {
             background-color: white;
-            padding: 2rem; /* Reduced padding for smaller size */
-            border-radius: 18px; /* Rounded corners */
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* Stronger shadow */
-            max-width: 600px; /* Max width for pop-up */
-            width: 90%; /* Responsive width */
-            max-height: 90vh; /* Max height to fit on screen */
-            overflow-y: auto; /* Allow scrolling if content overflows */
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
             text-align: center;
             position: relative;
             transform: translateY(30px) scale(0.9);
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
-            gap: 1rem; /* Slightly reduced gap */
+
+            /* Responsive adjustments */
+            width: calc(100% - 100px); /* 50px padding on each side */
+            max-width: 500px; /* Max width for desktop */
+            max-height: calc(100vh - 100px); /* 50px padding on top/bottom */
+            overflow-y: auto; /* Allow scrolling if content overflows */
+            
+            padding: 1.5rem; /* Default padding for content */
+            gap: 0.8rem; /* Space between elements */
         }
+        
+        @media (min-width: 769px) {
+            .product-modal-content {
+                width: calc(100% - max(100px, 30vw)); /* Adjust width based on 30% of viewport */
+                max-width: 500px; /* Cap it at 500px */
+                max-height: calc(100vh - max(100px, 30vh)); /* Adjust height based on 30% of viewport */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .product-modal-content {
+                width: calc(100% - 50px); /* Smaller padding for mobile */
+                max-width: 400px; /* Cap it at 400px for mobile */
+                max-height: calc(100vh - 50px); /* Smaller padding for mobile */
+                padding: 1rem; /* Smaller padding for content */
+                gap: 0.6rem; /* Smaller gap */
+            }
+        }
+
 
         .product-modal-overlay.active .product-modal-content {
             transform: translateY(0) scale(1);
@@ -711,6 +728,8 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
+            /* Allow scrolling only if the image itself is larger than the viewport */
+            overflow: hidden; 
         }
 
         .image-zoom-overlay.active {
@@ -720,7 +739,7 @@
 
         .image-zoom-content {
             position: relative;
-            max-width: 90%; /* Adjust max width for large images */
+            max-width: 95%; /* Adjust max width for large images */
             max-height: 80vh; /* Adjust max height to leave space for slider */
             display: flex;
             justify-content: center;
@@ -737,11 +756,16 @@
         .image-zoom-content img {
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain; /* Ensure entire image is visible */
+            object-fit: contain; /* Ensure entire image is visible within its container initially */
             border-radius: 12px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
             transform-origin: center center; /* Ensure zoom from center */
-            transition: transform 0.05s linear; /* Smooth zoom transition */
+            /* Removed transition here for smoother programmatic/touch zoom */
+            /* transition: transform 0.05s linear; */ 
+            cursor: grab; /* Indicate draggable for pan */
+        }
+        .image-zoom-content img.dragging {
+            cursor: grabbing;
         }
 
         .image-zoom-close {
@@ -857,8 +881,9 @@
             .product-card {
                 padding: 1.8rem;
             }
+            /* Product Modal: Adjusted for smaller viewports */
             .product-modal-content {
-                padding: 1.8rem; /* Adjusted for smaller modal */
+                padding: 1.5rem;
                 max-width: 550px; /* Adjusted max width */
             }
             .modal-product-title {
@@ -948,6 +973,7 @@
             #contact p {
                 font-size: 1.1rem;
             }
+            /* Product Modal: Adjusted for smaller viewports */
             .product-modal-content {
                 padding: 1.5rem; /* Further adjusted for smaller screens */
                 max-width: 90%; /* Take more width on smaller screens */
@@ -1125,10 +1151,12 @@
             #contact p {
                 font-size: 1rem;
             }
+            /* Product Modal: Adjusted for mobile view */
             .product-modal-content {
                 padding: 1rem; /* Adjusted for mobile view */
-                width: 95%; /* Wider on very small screens */
-                max-height: 90vh; /* Keep within viewport */
+                width: calc(100% - 50px); /* Wider on very small screens */
+                max-width: 400px;
+                max-height: calc(100vh - 50px); /* Keep within viewport */
             }
             .modal-product-img {
                 max-width: 90%; /* Wider image for mobile */
@@ -1163,7 +1191,7 @@
                 right: 0.7rem;
             }
             .image-zoom-close {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             .zoom-slider-container {
                 width: 95%; /* Adjust slider width for smaller screens */
@@ -1652,6 +1680,7 @@
 
     <footer>
         <p>&copy; ২০২৫ আমার দোকান। সকল অধিকার সংরক্ষিত।</p>
+         <p>Created by <a href="https://www.facebook.com/mosarofss" target="_blank" rel="noopener noreferrer">'MOSAROF'</a></p>
     </footer>
 
     <div class="product-modal-overlay" id="productModal">
@@ -1677,7 +1706,7 @@
         </div>
         <div class="zoom-slider-container">
             <i class="fas fa-search-minus"></i>
-            <input type="range" id="zoomSlider" class="zoom-slider" min="100" max="300" value="100">
+            <input type="range" id="zoomSlider" class="zoom-slider" min="100" max="400" value="100">
             <i class="fas fa-search-plus"></i>
         </div>
     </div>
@@ -1981,15 +2010,32 @@
         });
 
 
-        // Image Zoom Pop-up Logic with Slider
+        // Image Zoom Pop-up Logic with Slider and Pinch-to-zoom
         const imageZoomModal = document.getElementById('imageZoomModal');
         const closeImageZoomButton = document.getElementById('closeImageZoom');
         const zoomedImage = document.getElementById('zoomedImage');
         const zoomSlider = document.getElementById('zoomSlider');
 
+        let currentZoom = 1.0;
+        let startX, startY;
+        let isDragging = false;
+        let imgPosX = 0, imgPosY = 0; // Current image position for panning
+
+        // For pinch-to-zoom
+        let initialDistance = 0;
+        let isPinching = false;
+        let lastTouch1, lastTouch2;
+
+        function applyZoomAndPan() {
+            zoomedImage.style.transform = `scale(${currentZoom}) translate(${imgPosX}px, ${imgPosY}px)`;
+        }
+
         function openImageZoom(imageSrc) {
             zoomedImage.src = imageSrc;
-            zoomedImage.style.transform = 'scale(1)'; // Reset zoom when opening
+            currentZoom = 1.0; // Reset zoom
+            imgPosX = 0;
+            imgPosY = 0;
+            applyZoomAndPan();
             zoomSlider.value = 100; // Reset slider to default
             imageZoomModal.classList.add('active');
             body.style.overflow = 'hidden'; // Prevent body scroll
@@ -1998,7 +2044,8 @@
         function closeImageZoom() {
             imageZoomModal.classList.remove('active');
             body.style.overflow = 'auto'; // Restore body scroll
-            zoomedImage.style.transform = 'scale(1)'; // Ensure image is reset
+            // Reset transforms
+            zoomedImage.style.transform = 'scale(1) translate(0px, 0px)';
         }
 
         closeImageZoomButton.addEventListener('click', closeImageZoom);
@@ -2008,9 +2055,114 @@
             }
         });
 
+        // Slider Zoom
         zoomSlider.addEventListener('input', () => {
-            const zoomLevel = zoomSlider.value / 100; // Convert 100-300 to 1-3
-            zoomedImage.style.transform = `scale(${zoomLevel})`;
+            currentZoom = zoomSlider.value / 100; // Convert 100-400 to 1-4
+            applyZoomAndPan();
+        });
+
+        // Mouse Wheel Zoom (Desktop)
+        zoomedImage.addEventListener('wheel', (e) => {
+            e.preventDefault(); // Prevent page scrolling
+            const scaleFactor = 0.1;
+            const newZoom = currentZoom + (e.deltaY < 0 ? scaleFactor : -scaleFactor);
+            
+            currentZoom = Math.max(1.0, Math.min(4.0, newZoom)); // Clamp zoom between 1x and 4x
+            zoomSlider.value = currentZoom * 100; // Update slider
+            applyZoomAndPan();
+        });
+
+        // Mouse Pan (Desktop)
+        zoomedImage.addEventListener('mousedown', (e) => {
+            if (currentZoom > 1) { // Only enable panning if zoomed in
+                isDragging = true;
+                startX = e.clientX - imgPosX;
+                startY = e.clientY - imgPosY;
+                zoomedImage.classList.add('dragging');
+            }
+        });
+
+        imageZoomModal.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            imgPosX = e.clientX - startX;
+            imgPosY = e.clientY - startY;
+            applyZoomAndPan();
+        });
+
+        imageZoomModal.addEventListener('mouseup', () => {
+            isDragging = false;
+            zoomedImage.classList.remove('dragging');
+        });
+
+        imageZoomModal.addEventListener('mouseleave', () => {
+            isDragging = false;
+            zoomedImage.classList.remove('dragging');
+        });
+
+
+        // Touch Zoom & Pan (Mobile/Tablet)
+        zoomedImage.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) { // Single touch for pan
+                isDragging = true;
+                startX = e.touches[0].clientX - imgPosX;
+                startY = e.touches[0].clientY - imgPosY;
+            } else if (e.touches.length === 2) { // Two touches for pinch zoom
+                isPinching = true;
+                lastTouch1 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                lastTouch2 = { x: e.touches[1].clientX, y: e.touches[1].clientY };
+                initialDistance = Math.hypot(lastTouch2.x - lastTouch1.x, lastTouch2.y - lastTouch1.y);
+            }
+            zoomedImage.classList.add('dragging'); // Apply dragging cursor style
+        });
+
+        zoomedImage.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent default touch behavior (e.g., scrolling)
+
+            if (isPinching && e.touches.length === 2) {
+                const currentTouch1 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                const currentTouch2 = { x: e.touches[1].clientX, y: e.touches[1].clientY };
+                const currentDistance = Math.hypot(currentTouch2.x - currentTouch1.x, currentTouch2.y - currentTouch1.y);
+
+                const scaleChange = currentDistance / initialDistance;
+                let newZoom = currentZoom * scaleChange;
+
+                currentZoom = Math.max(1.0, Math.min(4.0, newZoom)); // Clamp zoom
+                zoomSlider.value = currentZoom * 100; // Update slider
+
+                // Adjust pan position slightly to zoom towards pinch center
+                const centerClientX = (currentTouch1.x + currentTouch2.x) / 2;
+                const centerClientY = (currentTouch1.y + currentTouch2.y) / 2;
+
+                const currentRect = zoomedImage.getBoundingClientRect();
+                const imageCenterX = currentRect.left + currentRect.width / 2;
+                const imageCenterY = currentRect.top + currentRect.height / 2;
+
+                // Relative position of pinch center within the image (0-1)
+                const relativeX = (centerClientX - currentRect.left) / currentRect.width;
+                const relativeY = (centerClientY - currentRect.top) / currentRect.height;
+                
+                // Calculate new pan positions based on the zoom origin
+                // This is a simplified approach; more advanced panning requires complex math
+                // For a truly smooth experience, you might need a dedicated library.
+                // For now, we just ensure it doesn't jump too wildly.
+                
+                // You might need to refine this pan calculation based on specific requirements
+                // For basic pan during pinch, it's often better to just let the image center on itself
+                // and allow subsequent single-touch dragging for precise panning.
+
+                applyZoomAndPan();
+                initialDistance = currentDistance; // Update initialDistance for next move
+            } else if (isDragging && e.touches.length === 1) { // Single touch for pan
+                imgPosX = e.touches[0].clientX - startX;
+                imgPosY = e.touches[0].clientY - startY;
+                applyZoomAndPan();
+            }
+        });
+
+        zoomedImage.addEventListener('touchend', () => {
+            isDragging = false;
+            isPinching = false;
+            zoomedImage.classList.remove('dragging');
         });
 
 
